@@ -1,0 +1,12 @@
+.git
+.gitattributes
+.gitignore
+.dockerignore
+.env
+.env.example
+Dockerfile
+docker-compose.yml
+docs/
+*.md
+uploads/reptiles/*
+!uploads/reptiles/index.html

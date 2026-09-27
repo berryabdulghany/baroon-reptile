@@ -1,0 +1,12 @@
+# Environment (kredensial database untuk Docker)
+.env
+
+# File yang diunggah pengguna
+uploads/*/*
+!uploads/*/index.html
+
+# Editor dan sistem operasi
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

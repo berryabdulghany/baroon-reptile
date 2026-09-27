@@ -67,7 +67,7 @@
             Akses Dilarang!
         </div>
         <p class="mb-4">Anda tidak memiliki izin untuk mengakses halaman atau direktori ini.</p>
-        <a href="/baroonreptil/" class="btn-home">
+        <a href="<?php echo htmlspecialchars(rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\') . '/'); ?>" class="btn-home">
             <i class="fas fa-home me-2"></i>Kembali ke Beranda
         </a>
     </div>

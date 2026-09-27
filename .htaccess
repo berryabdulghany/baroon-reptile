@@ -1,9 +1,13 @@
-# Baroon Reptile - Simplified Apache Configuration
+# Baroon Reptile - Konfigurasi Apache
 
-# Basic settings only
-RewriteEngine On
+# Jangan tampilkan isi folder yang tidak punya index
+Options -Indexes
 
-# Error Pages
-ErrorDocument 404 /baroonreptil/404.php
-ErrorDocument 403 /baroonreptil/403.php
-ErrorDocument 500 /baroonreptil/500.php
+# Tolak akses langsung ke file yang bukan untuk publik
+<FilesMatch "\.(sql|md|env|ini|log|yml|yaml)$|^(Dockerfile|\.gitattributes|\.gitignore)$">
+    Require all denied
+</FilesMatch>
+
+# Halaman error kustom (403.php, 404.php, 500.php) hanya bisa dipasang dengan
+# path absolut dari document root, jadi diatur di konfigurasi server
+# (lihat docker/apache.conf), bukan di sini.

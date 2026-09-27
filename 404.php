@@ -67,7 +67,7 @@
             Oops! Halaman yang Anda cari tidak ditemukan.
         </div>
         <p class="mb-4">Halaman mungkin telah dipindahkan, dihapus, atau URL yang Anda masukkan salah.</p>
-        <a href="/baroonreptil/" class="btn-home">
+        <a href="<?php echo htmlspecialchars(rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\') . '/'); ?>" class="btn-home">
             <i class="fas fa-home me-2"></i>Kembali ke Beranda
         </a>
     </div>

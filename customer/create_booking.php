@@ -43,7 +43,7 @@ try {
     $user_reptiles = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
     // Get facilities
-    $stmt = $db->query("SELECT * FROM facilities WHERE status = 'active' ORDER BY name");
+    $stmt = $db->query("SELECT * FROM facilities WHERE status = 'available' ORDER BY name");
     $facilities = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
     if ($_POST) {
@@ -99,7 +99,7 @@ try {
                     // Calculate facility costs
                     if (!empty($facility_ids)) {
                         $facility_placeholders = str_repeat('?,', count($facility_ids) - 1) . '?';
-                        $stmt = $db->prepare("SELECT SUM(price_per_day) FROM facilities WHERE id IN ($facility_placeholders)");
+                        $stmt = $db->prepare("SELECT SUM(price_per_day) FROM facilities WHERE id IN ($facility_placeholders) AND status = 'available'");
                         $stmt->execute($facility_ids);
                         $facility_cost = $stmt->fetchColumn() * $days;
                     }

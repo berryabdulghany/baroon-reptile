@@ -384,7 +384,7 @@ try {
                     <i class="fas fa-user-circle me-2"></i><?php echo htmlspecialchars($_SESSION['full_name']); ?>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="profile.php"><i class="fas fa-user me-2"></i>Profile</a></li>
+                    <li><a class="dropdown-item" href="settings.php"><i class="fas fa-user me-2"></i>Profile</a></li>
                     <li><a class="dropdown-item" href="settings.php"><i class="fas fa-cog me-2"></i>Settings</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="../auth/logout.php"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
@@ -445,7 +445,7 @@ try {
                                 <div class="row align-items-center">
                                     <div class="col-auto">
                                         <?php if ($reptile['photo']): ?>
-                                            <img src="../<?php echo htmlspecialchars($reptile['photo']); ?>" alt="<?php echo htmlspecialchars($reptile['name']); ?>" class="reptile-photo">
+                                            <img src="../<?php echo htmlspecialchars($reptile['photo'] ?? ''); ?>" alt="<?php echo htmlspecialchars($reptile['name']); ?>" class="reptile-photo">
                                         <?php else: ?>
                                             <div class="reptile-photo-placeholder">
                                                 <i class="fas fa-dragon"></i>
@@ -454,7 +454,7 @@ try {
                                     </div>
                                     <div class="col">
                                         <h6 class="mb-1"><?php echo htmlspecialchars($reptile['name']); ?></h6>
-                                        <p class="mb-1 text-muted"><?php echo htmlspecialchars($reptile['species']); ?></p>
+                                        <p class="mb-1 text-muted"><?php echo htmlspecialchars($reptile['species'] ?? ''); ?></p>
                                         <small class="text-muted"><?php echo htmlspecialchars($reptile['category_name']); ?></small>
                                     </div>
                                     <div class="col-auto">
@@ -474,7 +474,7 @@ try {
                                             <div class="row align-items-center">
                                                 <div class="col-auto">
                                                     <?php if ($r['photo']): ?>
-                                                        <img src="../<?php echo htmlspecialchars($r['photo']); ?>" alt="<?php echo htmlspecialchars($r['name']); ?>" class="reptile-photo">
+                                                        <img src="../<?php echo htmlspecialchars($r['photo'] ?? ''); ?>" alt="<?php echo htmlspecialchars($r['name']); ?>" class="reptile-photo">
                                                     <?php else: ?>
                                                         <div class="reptile-photo-placeholder">
                                                             <i class="fas fa-dragon"></i>
@@ -483,7 +483,7 @@ try {
                                                 </div>
                                                 <div class="col">
                                                     <h6 class="mb-1"><?php echo htmlspecialchars($r['name']); ?></h6>
-                                                    <p class="mb-1 text-muted"><?php echo htmlspecialchars($r['species']); ?></p>
+                                                    <p class="mb-1 text-muted"><?php echo htmlspecialchars($r['species'] ?? ''); ?></p>
                                                     <small class="text-muted"><?php echo htmlspecialchars($r['category_name']); ?></small>
                                                 </div>
                                                 <div class="col-auto">
@@ -514,7 +514,7 @@ try {
                                     <option value="<?php echo $customer['id']; ?>" <?php echo (isset($_POST['customer_id']) && $_POST['customer_id'] == $customer['id']) ? 'selected' : ''; ?>>
                                         <?php echo htmlspecialchars($customer['full_name']); ?> - <?php echo htmlspecialchars($customer['email']); ?>
                                         <?php if ($customer['phone']): ?>
-                                            (<?php echo htmlspecialchars($customer['phone']); ?>)
+                                            (<?php echo htmlspecialchars($customer['phone'] ?? ''); ?>)
                                         <?php endif; ?>
                                     </option>
                                 <?php endforeach; ?>

@@ -7,9 +7,11 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     exit;
 }
 
+// Kuitansi bisa dibuka dari halaman pembayaran (?id=) atau dari detail booking (?booking_id=)
 $payment_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+$booking_id = isset($_GET['booking_id']) ? (int)$_GET['booking_id'] : 0;
 
-if (!$payment_id) {
+if (!$payment_id && !$booking_id) {
     header('Location: payments.php');
     exit;
 }
@@ -30,9 +32,9 @@ try {
         LEFT JOIN users u ON b.customer_id = u.id
         LEFT JOIN reptiles r ON b.reptile_id = r.id
         LEFT JOIN reptile_categories rc ON r.category_id = rc.id
-        WHERE p.id = ? AND p.payment_status = 'paid'
+        WHERE " . ($payment_id ? "p.id = ?" : "p.booking_id = ?") . " AND p.payment_status = 'paid'
     ");
-    $stmt->execute([$payment_id]);
+    $stmt->execute([$payment_id ?: $booking_id]);
     $payment = $stmt->fetch(PDO::FETCH_ASSOC);
     
     if (!$payment) {
@@ -49,7 +51,8 @@ try {
 $method_labels = [
     'cash' => 'Cash',
     'transfer' => 'Bank Transfer',
-    'credit_card' => 'Credit Card'
+    'credit_card' => 'Credit Card',
+    'e_wallet' => 'E-Wallet'
 ];
 
 // Duration is now calculated in SQL query as total_days
@@ -262,13 +265,13 @@ $duration = $payment['total_days'];
                 <?php if ($payment['customer_phone']): ?>
                 <div class="info-row">
                     <span class="info-label">Phone:</span>
-                    <span class="info-value"><?php echo htmlspecialchars($payment['customer_phone']); ?></span>
+                    <span class="info-value"><?php echo htmlspecialchars($payment['customer_phone'] ?? ''); ?></span>
                 </div>
                 <?php endif; ?>
                 <?php if ($payment['customer_address']): ?>
                 <div class="info-row">
                     <span class="info-label">Address:</span>
-                    <span class="info-value"><?php echo htmlspecialchars($payment['customer_address']); ?></span>
+                    <span class="info-value"><?php echo htmlspecialchars($payment['customer_address'] ?? ''); ?></span>
                 </div>
                 <?php endif; ?>
             </div>
@@ -325,7 +328,7 @@ $duration = $payment['total_days'];
         <div class="info-section">
             <h4>Notes</h4>
             <p style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 0;">
-                <?php echo nl2br(htmlspecialchars($payment['notes'])); ?>
+                <?php echo nl2br(htmlspecialchars($payment['notes'] ?? '')); ?>
             </p>
         </div>
         <?php endif; ?>

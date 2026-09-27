@@ -498,7 +498,7 @@ try {
                                             <div>
                                                 <strong><?php echo htmlspecialchars($booking['reptile_name']); ?></strong><br>
                                                 <small class="text-muted">
-                                                    <?php echo htmlspecialchars($booking['species']); ?> • 
+                                                    <?php echo htmlspecialchars($booking['species'] ?? ''); ?> • 
                                                     <?php echo htmlspecialchars($booking['category_name']); ?>
                                                 </small>
                                             </div>
@@ -541,12 +541,6 @@ try {
                                                    class="btn btn-sm btn-outline-primary" title="Lihat Detail">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
-                                                <?php if ($booking['status'] === 'pending'): ?>
-                                                    <a href="edit_booking.php?id=<?php echo $booking['id']; ?>" 
-                                                       class="btn btn-sm btn-outline-warning" title="Edit">
-                                                        <i class="fas fa-edit"></i>
-                                                    </a>
-                                                <?php endif; ?>
                                                 <?php if (in_array($booking['status'], ['completed', 'cancelled'])): ?>
                                                     <a href="print_receipt.php?booking_id=<?php echo $booking['id']; ?>" 
                                                        class="btn btn-sm btn-outline-success" title="Cetak Kwitansi" target="_blank">

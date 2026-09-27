@@ -322,7 +322,7 @@ try {
                 <div class="row g-0">
                     <div class="col-md-5">
                         <?php if ($reptile['photo']): ?>
-                            <img src="../<?php echo htmlspecialchars($reptile['photo']); ?>" alt="<?php echo htmlspecialchars($reptile['name']); ?>" class="reptile-image-large">
+                            <img src="../<?php echo htmlspecialchars($reptile['photo'] ?? ''); ?>" alt="<?php echo htmlspecialchars($reptile['name']); ?>" class="reptile-image-large">
                         <?php else: ?>
                             <div class="reptile-image-large d-flex align-items-center justify-content-center">
                                 <i class="fas fa-dragon fa-5x text-muted"></i>
@@ -345,21 +345,21 @@ try {
                             
                             <?php if ($reptile['species']): ?>
                                 <div class="mb-3">
-                                    <strong><i class="fas fa-dna me-2"></i>Spesies:</strong> <?php echo htmlspecialchars($reptile['species']); ?>
+                                    <strong><i class="fas fa-dna me-2"></i>Spesies:</strong> <?php echo htmlspecialchars($reptile['species'] ?? ''); ?>
                                 </div>
                             <?php endif; ?>
                             
                             <?php if (isset($reptile['description']) && $reptile['description']): ?>
                                 <div class="mb-3">
                                     <strong><i class="fas fa-info-circle me-2"></i>Deskripsi:</strong>
-                                    <p class="mt-2"><?php echo nl2br(htmlspecialchars($reptile['description'])); ?></p>
+                                    <p class="mt-2"><?php echo nl2br(htmlspecialchars($reptile['description'] ?? '')); ?></p>
                                 </div>
                             <?php endif; ?>
                             
                             <div class="info-grid">
                                 <?php if ($reptile['age']): ?>
                                     <div class="info-item">
-                                        <span class="info-value"><?php echo htmlspecialchars($reptile['age']); ?></span>
+                                        <span class="info-value"><?php echo htmlspecialchars($reptile['age'] ?? ''); ?></span>
                                         <span class="info-label">Umur</span>
                                     </div>
                                 <?php endif; ?>

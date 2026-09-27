@@ -53,7 +53,7 @@ try {
     }
     
     if ($search) {
-        $where_conditions[] = '(r.name LIKE ? OR r.species LIKE ? OR r.description LIKE ?)';
+        $where_conditions[] = '(r.name LIKE ? OR r.species LIKE ? OR r.special_needs LIKE ?)';
         $search_param = '%' . $search . '%';
         $params[] = $search_param;
         $params[] = $search_param;
@@ -447,8 +447,7 @@ try {
                         <select name="status" class="form-select">
                             <option value="">Semua Status</option>
                             <option value="active" <?php echo $status_filter === 'active' ? 'selected' : ''; ?>>Aktif</option>
-                            <option value="cancelled" <?php echo $status_filter === 'cancelled' ? 'selected' : ''; ?>>Dibatalkan</option>
-                            <option value="completed" <?php echo $status_filter === 'completed' ? 'selected' : ''; ?>>Selesai</option>
+                            <option value="inactive" <?php echo $status_filter === 'inactive' ? 'selected' : ''; ?>>Nonaktif</option>
                         </select>
                     </div>
                     
@@ -492,13 +491,12 @@ try {
                                 </div>
                                 <div class="reptile-body">
                                     <div class="reptile-name"><?php echo htmlspecialchars($reptile['name']); ?></div>
-                                    <div class="reptile-species"><?php echo htmlspecialchars($reptile['species']); ?></div>
+                                    <div class="reptile-species"><?php echo htmlspecialchars($reptile['species'] ?? ''); ?></div>
                                     
                                     <div class="reptile-info">
                                         <span class="badge bg-secondary"><?php echo htmlspecialchars($reptile['category_name']); ?></span>
                                         <span class="status-badge bg-<?php 
-                                            echo $reptile['status'] === 'active' ? 'success' : 
-                                                ($reptile['status'] === 'completed' ? 'primary' : 'warning'); 
+                                            echo $reptile['status'] === 'active' ? 'success' : 'secondary';
                                         ?>">
                                             <?php echo ucfirst($reptile['status']); ?>
                                         </span>
@@ -525,7 +523,7 @@ try {
                                     
                                     <?php if (isset($reptile['special_needs']) && $reptile['special_needs']): ?>
                         <div class="alert alert-warning py-2 mb-3">
-                            <small><i class="fas fa-exclamation-triangle me-1"></i> Kebutuhan khusus: <?php echo htmlspecialchars($reptile['special_needs']); ?></small>
+                            <small><i class="fas fa-exclamation-triangle me-1"></i> Kebutuhan khusus: <?php echo htmlspecialchars($reptile['special_needs'] ?? ''); ?></small>
                         </div>
                     <?php endif; ?>
                                     

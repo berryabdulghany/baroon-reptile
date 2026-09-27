@@ -91,7 +91,7 @@ try {
             (SELECT COUNT(*) FROM reptiles WHERE customer_id = ?) as total_reptiles,
             (SELECT COUNT(*) FROM reptiles WHERE customer_id = ? AND status = 'active') as active_reptiles,
             (SELECT COUNT(*) FROM bookings WHERE customer_id = ?) as total_bookings,
-            (SELECT COUNT(*) FROM bookings WHERE customer_id = ? AND status IN ('confirmed', 'in-progress')) as active_bookings,
+            (SELECT COUNT(*) FROM bookings WHERE customer_id = ? AND status IN ('confirmed', 'in_progress')) as active_bookings,
             (SELECT COALESCE(SUM(amount), 0) FROM payments p JOIN bookings b ON p.booking_id = b.id WHERE b.customer_id = ? AND p.payment_status = 'paid') as total_spent
     ");
     $stmt->execute([$_SESSION['user_id'], $_SESSION['user_id'], $_SESSION['user_id'], $_SESSION['user_id'], $_SESSION['user_id']]);
@@ -489,7 +489,7 @@ $status_config = [
                         <h2 class="mb-2"><?php echo htmlspecialchars($user['full_name']); ?></h2>
                         <p class="mb-2"><i class="fas fa-envelope me-2"></i><?php echo htmlspecialchars($user['email']); ?></p>
                         <?php if ($user['phone']): ?>
-                            <p class="mb-2"><i class="fas fa-phone me-2"></i><?php echo htmlspecialchars($user['phone']); ?></p>
+                            <p class="mb-2"><i class="fas fa-phone me-2"></i><?php echo htmlspecialchars($user['phone'] ?? ''); ?></p>
                         <?php endif; ?>
                         <p class="mb-0"><i class="fas fa-calendar me-2"></i>Member since <?php echo date('M Y', strtotime($user['created_at'])); ?></p>
                     </div>
@@ -583,7 +583,7 @@ $status_config = [
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label for="phone" class="form-label">Phone Number</label>
-                                        <input type="text" class="form-control" id="phone" name="phone" value="<?php echo htmlspecialchars($user['phone']); ?>">
+                                        <input type="text" class="form-control" id="phone" name="phone" value="<?php echo htmlspecialchars($user['phone'] ?? ''); ?>">
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="username" class="form-label">Username</label>
@@ -594,7 +594,7 @@ $status_config = [
                                 
                                 <div class="mb-3">
                                     <label for="address" class="form-label">Address</label>
-                                    <textarea class="form-control" id="address" name="address" rows="3"><?php echo htmlspecialchars($user['address']); ?></textarea>
+                                    <textarea class="form-control" id="address" name="address" rows="3"><?php echo htmlspecialchars($user['address'] ?? ''); ?></textarea>
                                 </div>
                                 
                                 <div class="row">
@@ -702,7 +702,7 @@ $status_config = [
                                                 </div>
                                                 <div class="flex-grow-1">
                                                     <div class="fw-bold"><?php echo htmlspecialchars($booking['reptile_name']); ?></div>
-                                                    <div class="text-muted small"><?php echo htmlspecialchars($booking['species']); ?> - <?php echo htmlspecialchars($booking['category_name']); ?></div>
+                                                    <div class="text-muted small"><?php echo htmlspecialchars($booking['species'] ?? ''); ?> - <?php echo htmlspecialchars($booking['category_name']); ?></div>
                                                     <small class="text-muted">
                                                         <i class="fas fa-clock me-1"></i>
                                                         <?php echo date('d M Y', strtotime($booking['start_date'])); ?> - <?php echo date('d M Y', strtotime($booking['end_date'])); ?>
@@ -747,14 +747,14 @@ $status_config = [
                                             <div class="activity-item">
                                                 <div class="activity-icon">
                                                     <?php if ($reptile['photo']): ?>
-                                                        <img src="../<?php echo htmlspecialchars($reptile['photo']); ?>" alt="<?php echo htmlspecialchars($reptile['name']); ?>" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                                                        <img src="../<?php echo htmlspecialchars($reptile['photo'] ?? ''); ?>" alt="<?php echo htmlspecialchars($reptile['name']); ?>" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
                                                     <?php else: ?>
                                                         <i class="fas fa-dragon text-success"></i>
                                                     <?php endif; ?>
                                                 </div>
                                                 <div class="flex-grow-1">
                                                     <div class="fw-bold"><?php echo htmlspecialchars($reptile['name']); ?></div>
-                                                    <div class="text-muted small"><?php echo htmlspecialchars($reptile['species']); ?> - <?php echo htmlspecialchars($reptile['category_name']); ?></div>
+                                                    <div class="text-muted small"><?php echo htmlspecialchars($reptile['species'] ?? ''); ?> - <?php echo htmlspecialchars($reptile['category_name']); ?></div>
                                                     <small class="text-muted">
                                                         <i class="fas fa-clock me-1"></i>
                                                         Added <?php echo date('d M Y', strtotime($reptile['created_at'])); ?>

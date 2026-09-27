@@ -30,11 +30,11 @@ try {
     $sort_by = isset($_GET['sort']) ? $_GET['sort'] : 'newest';
     
     // Build query
-    $where_clause = "WHERE role = 'customer'";
+    $where_clause = "WHERE u.role = 'customer'";
     $params = [];
     
     if ($status_filter !== 'all') {
-        $where_clause .= " AND status = ?";
+        $where_clause .= " AND u.status = ?";
         $params[] = $status_filter;
     }
     
@@ -42,19 +42,19 @@ try {
     $order_clause = "ORDER BY ";
     switch ($sort_by) {
         case 'oldest':
-            $order_clause .= "created_at ASC";
+            $order_clause .= "u.created_at ASC";
             break;
         case 'name_asc':
-            $order_clause .= "full_name ASC";
+            $order_clause .= "u.full_name ASC";
             break;
         case 'name_desc':
-            $order_clause .= "full_name DESC";
+            $order_clause .= "u.full_name DESC";
             break;
         case 'most_bookings':
             $order_clause .= "total_bookings DESC";
             break;
         default: // newest
-            $order_clause .= "created_at DESC";
+            $order_clause .= "u.created_at DESC";
     }
     
     // Get all customers with statistics
@@ -399,18 +399,6 @@ try {
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="categories.php">
-                        <i class="fas fa-tags"></i>
-                        <span class="nav-text">Kategori</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="testimonials.php">
-                        <i class="fas fa-star"></i>
-                        <span class="nav-text">Testimoni</span>
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="settings.php">
                         <i class="fas fa-cog"></i>
                         <span class="nav-text">Pengaturan</span>
@@ -433,7 +421,7 @@ try {
                     <i class="fas fa-user-circle me-2"></i><?php echo htmlspecialchars($_SESSION['full_name']); ?>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="profile.php"><i class="fas fa-user me-2"></i>Profil</a></li>
+                    <li><a class="dropdown-item" href="settings.php"><i class="fas fa-user me-2"></i>Profil</a></li>
                     <li><a class="dropdown-item" href="settings.php"><i class="fas fa-cog me-2"></i>Pengaturan</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="../auth/logout.php"><i class="fas fa-sign-out-alt me-2"></i>Keluar</a></li>
@@ -604,7 +592,7 @@ try {
                                     <div class="mt-3">
                                         <small class="text-muted">
                                             <i class="fas fa-phone me-1"></i>
-                                            <?php echo htmlspecialchars($customer['phone']); ?>
+                                            <?php echo htmlspecialchars($customer['phone'] ?? ''); ?>
                                         </small>
                                     </div>
                                 <?php endif; ?>
@@ -613,7 +601,7 @@ try {
                                     <div class="mt-1">
                                         <small class="text-muted">
                                             <i class="fas fa-map-marker-alt me-1"></i>
-                                            <?php echo htmlspecialchars($customer['address']); ?>
+                                            <?php echo htmlspecialchars($customer['address'] ?? ''); ?>
                                         </small>
                                     </div>
                                 <?php endif; ?>
@@ -657,8 +645,7 @@ try {
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-end">
-                                                <li><a class="dropdown-item" href="edit_customer.php?id=<?php echo $customer['id']; ?>"><i class="fas fa-edit me-2"></i>Edit</a></li>
-                                                <li><a class="dropdown-item" href="customer_history.php?id=<?php echo $customer['id']; ?>"><i class="fas fa-history me-2"></i>Riwayat</a></li>
+                                                <li><a class="dropdown-item" href="customer_bookings.php?customer_id=<?php echo $customer['id']; ?>"><i class="fas fa-history me-2"></i>Riwayat</a></li>
                                                 <li><a class="dropdown-item" href="send_message.php?customer_id=<?php echo $customer['id']; ?>"><i class="fas fa-envelope me-2"></i>Kirim Pesan</a></li>
                                                 <li><hr class="dropdown-divider"></li>
                                                 <li><a class="dropdown-item text-danger" href="#" onclick="confirmDelete(<?php echo $customer['id']; ?>)"><i class="fas fa-trash me-2"></i>Hapus</a></li>

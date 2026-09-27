@@ -512,7 +512,7 @@ try {
                                             <div class="reptile-card">
                                                 <div class="reptile-image">
                                                     <?php if ($reptile['photo']): ?>
-                                                        <img src="../<?php echo htmlspecialchars($reptile['photo']); ?>" alt="<?php echo htmlspecialchars($reptile['name']); ?>" class="img-fluid">
+                                                        <img src="../<?php echo htmlspecialchars($reptile['photo'] ?? ''); ?>" alt="<?php echo htmlspecialchars($reptile['name']); ?>" class="img-fluid">
                                                     <?php else: ?>
                                                         <i class="fas fa-dragon"></i>
                                                     <?php endif; ?>
@@ -527,11 +527,11 @@ try {
                                                         <small class="text-muted">Rp <?php echo number_format($reptile['price_per_day'], 0, ',', '.'); ?>/hari</small>
                                                     </div>
                                                     <div class="mt-3">
-                                                        <a href="reptile_detail.php?id=<?php echo $reptile['id']; ?>" class="btn btn-sm btn-outline-primary me-2">
+                                                        <a href="view_reptile.php?id=<?php echo $reptile['id']; ?>" class="btn btn-sm btn-outline-primary me-2">
                                                             <i class="fas fa-eye"></i> Detail
                                                         </a>
                                                         <?php if ($reptile['active_booking'] == 0): ?>
-                                                            <a href="book_reptile.php?id=<?php echo $reptile['id']; ?>" class="btn btn-sm btn-primary">
+                                                            <a href="create_booking.php?reptile_id=<?php echo $reptile['id']; ?>" class="btn btn-sm btn-primary">
                                                                 <i class="fas fa-calendar-plus"></i> Booking
                                                             </a>
                                                         <?php endif; ?>

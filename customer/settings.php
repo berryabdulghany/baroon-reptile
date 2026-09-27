@@ -57,7 +57,7 @@ try {
                 $message = 'error:Password salah!';
             } else {
                 // Check for active bookings
-                $stmt = $db->prepare("SELECT COUNT(*) FROM bookings WHERE customer_id = ? AND status IN ('pending', 'confirmed', 'active')");
+                $stmt = $db->prepare("SELECT COUNT(*) FROM bookings WHERE customer_id = ? AND status IN ('pending', 'confirmed', 'in_progress')");
                 $stmt->execute([$_SESSION['user_id']]);
                 $active_bookings = $stmt->fetchColumn();
                 
@@ -65,7 +65,7 @@ try {
                     $message = 'error:Tidak dapat menghapus akun karena masih ada booking aktif!';
                 } else {
                     // Soft delete user account
-                    $stmt = $db->prepare("UPDATE users SET status = 'deleted', updated_at = NOW() WHERE id = ?");
+                    $stmt = $db->prepare("UPDATE users SET status = 'inactive', updated_at = NOW() WHERE id = ?");
                     if ($stmt->execute([$_SESSION['user_id']])) {
                         session_destroy();
                         header('Location: ../index.php?message=account_deleted');
@@ -89,7 +89,7 @@ try {
             (SELECT COUNT(*) FROM reptiles WHERE customer_id = ?) as total_reptiles,
             (SELECT COUNT(*) FROM reptiles WHERE customer_id = ? AND status = 'active') as active_reptiles,
             (SELECT COUNT(*) FROM bookings WHERE customer_id = ?) as total_bookings,
-            (SELECT COUNT(*) FROM bookings WHERE customer_id = ? AND status IN ('pending', 'confirmed', 'active')) as active_bookings,
+            (SELECT COUNT(*) FROM bookings WHERE customer_id = ? AND status IN ('pending', 'confirmed', 'in_progress')) as active_bookings,
             (SELECT COALESCE(SUM(amount), 0) FROM payments p JOIN bookings b ON p.booking_id = b.id WHERE b.customer_id = ? AND p.payment_status = 'paid') as total_spent
     ");
     $stmt->execute([$_SESSION['user_id'], $_SESSION['user_id'], $_SESSION['user_id'], $_SESSION['user_id'], $_SESSION['user_id']]);

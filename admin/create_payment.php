@@ -318,7 +318,7 @@ try {
                                 <div class="row align-items-center mb-3">
                                     <div class="col-md-2">
                                         <?php if ($booking['photo']): ?>
-                                            <img src="../<?php echo htmlspecialchars($booking['photo']); ?>" alt="<?php echo htmlspecialchars($booking['reptile_name']); ?>" class="reptile-image">
+                                            <img src="../<?php echo htmlspecialchars($booking['photo'] ?? ''); ?>" alt="<?php echo htmlspecialchars($booking['reptile_name']); ?>" class="reptile-image">
                                         <?php else: ?>
                                             <div class="reptile-image d-flex align-items-center justify-content-center bg-light">
                                                 <i class="fas fa-dragon text-muted"></i>
@@ -328,7 +328,7 @@ try {
                                     <div class="col-md-6">
                                         <h6 class="mb-1"><?php echo htmlspecialchars($booking['reptile_name']); ?></h6>
                                         <small class="text-muted"><?php echo htmlspecialchars($booking['category_name']); ?></small>
-                                        <br><small class="text-muted">Species: <?php echo htmlspecialchars($booking['species']); ?></small>
+                                        <br><small class="text-muted">Species: <?php echo htmlspecialchars($booking['species'] ?? ''); ?></small>
                                     </div>
                                     <div class="col-md-4 text-end">
                                         <div class="h4 text-success mb-0">Rp <?php echo number_format($booking['total_price'], 0, ',', '.'); ?></div>
@@ -369,7 +369,7 @@ try {
                                             <label for="payment_method" class="form-label">Payment Method</label>
                                             <select class="form-select" id="payment_method" name="payment_method" required>
                                                 <option value="">Select payment method</option>
-                                                <option value="bank_transfer">Bank Transfer</option>
+                                                <option value="transfer">Bank Transfer</option>
                                                 <option value="credit_card">Credit Card</option>
                                                 <option value="e_wallet">E-Wallet</option>
                                                 <option value="cash">Cash</option>

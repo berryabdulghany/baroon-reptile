@@ -466,18 +466,6 @@ $month_names = [
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="categories.php">
-                        <i class="fas fa-tags"></i>
-                        <span class="nav-text">Kategori</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="testimonials.php">
-                        <i class="fas fa-star"></i>
-                        <span class="nav-text">Testimoni</span>
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="settings.php">
                         <i class="fas fa-cog"></i>
                         <span class="nav-text">Pengaturan</span>
@@ -503,7 +491,7 @@ $month_names = [
                     <i class="fas fa-user-circle me-2"></i><?php echo htmlspecialchars($_SESSION['full_name']); ?>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="profile.php"><i class="fas fa-user me-2"></i>Profile</a></li>
+                    <li><a class="dropdown-item" href="settings.php"><i class="fas fa-user me-2"></i>Profile</a></li>
                     <li><a class="dropdown-item" href="settings.php"><i class="fas fa-cog me-2"></i>Settings</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="../auth/logout.php"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
@@ -696,8 +684,6 @@ $month_names = [
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <li><a class="dropdown-item" href="#" onclick="editReport(<?php echo $report['id']; ?>)"><i class="fas fa-edit me-2"></i>Edit</a></li>
-                                                <li><a class="dropdown-item" href="view_report.php?id=<?php echo $report['id']; ?>"><i class="fas fa-eye me-2"></i>View Details</a></li>
-                                                <li><a class="dropdown-item" href="print_report.php?id=<?php echo $report['id']; ?>" target="_blank"><i class="fas fa-print me-2"></i>Print</a></li>
                                                 <li><hr class="dropdown-divider"></li>
                                                 <li><a class="dropdown-item text-danger" href="#" onclick="deleteReport(<?php echo $report['id']; ?>)"><i class="fas fa-trash me-2"></i>Delete</a></li>
                                             </ul>
@@ -731,7 +717,7 @@ $month_names = [
                                 <?php if ($report['notes']): ?>
                                     <div class="mt-3">
                                         <strong>Notes:</strong>
-                                        <p class="text-muted mb-0"><?php echo nl2br(htmlspecialchars($report['notes'])); ?></p>
+                                        <p class="text-muted mb-0"><?php echo nl2br(htmlspecialchars($report['notes'] ?? '')); ?></p>
                                     </div>
                                 <?php endif; ?>
                             </div>

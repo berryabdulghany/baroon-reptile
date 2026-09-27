@@ -39,7 +39,7 @@ try {
     // Check if reptile has active bookings
     $stmt = $db->prepare("
         SELECT COUNT(*) FROM bookings 
-        WHERE reptile_id = ? AND status IN ('pending', 'confirmed', 'active')
+        WHERE reptile_id = ? AND status IN ('pending', 'confirmed', 'in_progress')
     ");
     $stmt->execute([$reptile_id]);
     $has_active_bookings = $stmt->fetchColumn() > 0;
@@ -460,14 +460,14 @@ try {
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="species" class="form-label">Species *</label>
-                                        <input type="text" class="form-control" id="species" name="species" value="<?php echo htmlspecialchars($reptile['species']); ?>" required maxlength="100" <?php echo $has_active_bookings ? 'readonly' : ''; ?>>
+                                        <input type="text" class="form-control" id="species" name="species" value="<?php echo htmlspecialchars($reptile['species'] ?? ''); ?>" required maxlength="100" <?php echo $has_active_bookings ? 'readonly' : ''; ?>>
                                     </div>
                                 </div>
                                 
                                 <div class="row">
                                     <div class="col-md-4 mb-3">
-                                        <label for="age" class="form-label">Age (years) *</label>
-                                        <input type="number" class="form-control" id="age" name="age" value="<?php echo $reptile['age']; ?>" required min="0" max="100" <?php echo $has_active_bookings ? 'readonly' : ''; ?>>
+                                        <label for="age" class="form-label">Age *</label>
+                                        <input type="text" class="form-control" id="age" name="age" value="<?php echo htmlspecialchars($reptile['age'] ?? ''); ?>" placeholder="Contoh: 2 tahun" required <?php echo $has_active_bookings ? 'readonly' : ''; ?>>
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="weight" class="form-label">Weight (kg) *</label>
@@ -502,7 +502,7 @@ try {
                                 
                                 <div class="mb-3">
                                     <label for="special_needs" class="form-label">Special Needs / Notes</label>
-                                    <textarea class="form-control" id="special_needs" name="special_needs" rows="4" placeholder="Any special care requirements, medical conditions, dietary restrictions, etc..."><?php echo htmlspecialchars($reptile['special_needs']); ?></textarea>
+                                    <textarea class="form-control" id="special_needs" name="special_needs" rows="4" placeholder="Any special care requirements, medical conditions, dietary restrictions, etc..."><?php echo htmlspecialchars($reptile['special_needs'] ?? ''); ?></textarea>
                                 </div>
                             </div>
                             
@@ -512,7 +512,7 @@ try {
                                     <label for="photo" class="form-label">Reptile Photo</label>
                                     <?php if ($reptile['photo']): ?>
                                         <div class="mb-3">
-                                            <img src="../<?php echo htmlspecialchars($reptile['photo']); ?>" alt="Current Photo" class="photo-preview img-fluid">
+                                            <img src="../<?php echo htmlspecialchars($reptile['photo'] ?? ''); ?>" alt="Current Photo" class="photo-preview img-fluid">
                                             <div class="form-text">Current photo</div>
                                         </div>
                                     <?php endif; ?>
@@ -523,7 +523,7 @@ try {
                                 <!-- Category Information -->
                                 <div class="category-info">
                                     <h6 class="mb-2"><i class="fas fa-info-circle me-2"></i>Category: <?php echo htmlspecialchars($reptile['category_name']); ?></h6>
-                                    <p class="small mb-2"><?php echo htmlspecialchars($reptile['category_description']); ?></p>
+                                    <p class="small mb-2"><?php echo htmlspecialchars($reptile['category_description'] ?? ''); ?></p>
                                     <div class="fw-bold text-success">Rp <?php echo number_format($reptile['price_per_day'], 0, ',', '.'); ?> / day</div>
                                 </div>
                                 

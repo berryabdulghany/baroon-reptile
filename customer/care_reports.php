@@ -536,7 +536,7 @@ try {
                         <div class="report-body">
                             <div class="reptile-info">
                                 <?php if ($report['reptile_photo']): ?>
-                                    <img src="../<?php echo htmlspecialchars($report['reptile_photo']); ?>" alt="<?php echo htmlspecialchars($report['reptile_name']); ?>" class="reptile-photo">
+                                    <img src="../<?php echo htmlspecialchars($report['reptile_photo'] ?? ''); ?>" alt="<?php echo htmlspecialchars($report['reptile_name']); ?>" class="reptile-photo">
                                 <?php else: ?>
                                     <div class="reptile-photo bg-secondary d-flex align-items-center justify-content-center">
                                         <i class="fas fa-dragon text-white"></i>
@@ -551,7 +551,7 @@ try {
                             <div class="care-metrics">
                                 <?php if ($report['feeding_notes']): ?>
                                     <div class="metric-item">
-                                        <div class="metric-value"><?php echo htmlspecialchars($report['feeding_notes']); ?></div>
+                                        <div class="metric-value"><?php echo htmlspecialchars($report['feeding_notes'] ?? ''); ?></div>
                                         <div class="metric-label">Feeding Notes</div>
                                     </div>
                                 <?php endif; ?>
@@ -581,7 +581,7 @@ try {
                             <?php if ($report['notes']): ?>
                                 <div class="mt-3">
                                     <h6><i class="fas fa-notes-medical me-2"></i>Notes:</h6>
-                                    <p class="mb-0"><?php echo nl2br(htmlspecialchars($report['notes'])); ?></p>
+                                    <p class="mb-0"><?php echo nl2br(htmlspecialchars($report['notes'] ?? '')); ?></p>
                                 </div>
                             <?php endif; ?>
                             

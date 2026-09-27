@@ -574,7 +574,7 @@ $status_config = [
                                     <div class="col-md-6">
                                         <div class="reptile-info">
                                             <?php if ($booking['reptile_photo']): ?>
-                                                <img src="../<?php echo htmlspecialchars($booking['reptile_photo']); ?>" alt="<?php echo htmlspecialchars($booking['reptile_name']); ?>" class="reptile-image">
+                                                <img src="../<?php echo htmlspecialchars($booking['reptile_photo'] ?? ''); ?>" alt="<?php echo htmlspecialchars($booking['reptile_name']); ?>" class="reptile-image">
                                             <?php else: ?>
                                                 <div class="reptile-image d-flex align-items-center justify-content-center bg-light">
                                                     <i class="fas fa-dragon text-muted"></i>
@@ -686,7 +686,7 @@ $status_config = [
                                             <?php endif; ?>
                                             
                                             <?php if ($booking['status'] === 'completed'): ?>
-                                                <a href="reports.php?booking_id=<?php echo $booking['id']; ?>" class="btn btn-outline-info btn-sm">
+                                                <a href="care_reports.php" class="btn btn-outline-info btn-sm">
                                                     <i class="fas fa-file-alt me-1"></i>Laporan
                                                 </a>
                                             <?php endif; ?>

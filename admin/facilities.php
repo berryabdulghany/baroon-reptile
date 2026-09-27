@@ -475,18 +475,6 @@ $status_config = [
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="categories.php">
-                        <i class="fas fa-tags"></i>
-                        <span class="nav-text">Kategori</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="testimonials.php">
-                        <i class="fas fa-star"></i>
-                        <span class="nav-text">Testimoni</span>
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="settings.php">
                         <i class="fas fa-cog"></i>
                         <span class="nav-text">Pengaturan</span>
@@ -512,7 +500,7 @@ $status_config = [
                     <i class="fas fa-user-circle me-2"></i><?php echo htmlspecialchars($_SESSION['full_name']); ?>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="profile.php"><i class="fas fa-user me-2"></i>Profile</a></li>
+                    <li><a class="dropdown-item" href="settings.php"><i class="fas fa-user me-2"></i>Profile</a></li>
                     <li><a class="dropdown-item" href="settings.php"><i class="fas fa-cog me-2"></i>Settings</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="../auth/logout.php"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
@@ -605,8 +593,9 @@ $status_config = [
                         <div class="d-flex align-items-center gap-3 flex-wrap">
                             <div class="btn-group" role="group">
                                 <a href="?status=all&sort=<?php echo $sort_filter; ?>" class="btn <?php echo $status_filter === 'all' ? 'btn-primary' : 'btn-outline-secondary'; ?>">Semua</a>
-                                <a href="?status=active&sort=<?php echo $sort_filter; ?>" class="btn <?php echo $status_filter === 'active' ? 'btn-success' : 'btn-outline-success'; ?>">Aktif</a>
-                                <a href="?status=inactive&sort=<?php echo $sort_filter; ?>" class="btn <?php echo $status_filter === 'inactive' ? 'btn-secondary' : 'btn-outline-secondary'; ?>">Tidak Aktif</a>
+                                <a href="?status=available&sort=<?php echo $sort_filter; ?>" class="btn <?php echo $status_filter === 'available' ? 'btn-success' : 'btn-outline-success'; ?>">Tersedia</a>
+                                <a href="?status=occupied&sort=<?php echo $sort_filter; ?>" class="btn <?php echo $status_filter === 'occupied' ? 'btn-warning' : 'btn-outline-warning'; ?>">Terisi</a>
+                                <a href="?status=maintenance&sort=<?php echo $sort_filter; ?>" class="btn <?php echo $status_filter === 'maintenance' ? 'btn-danger' : 'btn-outline-danger'; ?>">Maintenance</a>
                             </div>
                             
                             <select class="form-select" style="width: auto;" onchange="window.location.href='?status=<?php echo $status_filter; ?>&sort=' + this.value">
@@ -677,12 +666,12 @@ $status_config = [
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <li><a class="dropdown-item" href="#" onclick="editFacility(<?php echo $facility['id']; ?>, '<?php echo addslashes($facility['name']); ?>', '<?php echo addslashes($facility['description']); ?>', <?php echo $facility['capacity']; ?>, <?php echo $facility['price_per_day']; ?>, '<?php echo $facility['status']; ?>')"><i class="fas fa-edit me-2"></i>Edit</a></li>
-                                                <li><a class="dropdown-item" href="view_facility.php?id=<?php echo $facility['id']; ?>"><i class="fas fa-eye me-2"></i>Lihat Detail</a></li>
                                                 <li><hr class="dropdown-divider"></li>
-                                                <?php if ($facility['status'] === 'active'): ?>
-                                                    <li><a class="dropdown-item" href="#" onclick="updateStatus(<?php echo $facility['id']; ?>, 'inactive')"><i class="fas fa-pause me-2"></i>Nonaktifkan</a></li>
-                                                <?php else: ?>
-                                                    <li><a class="dropdown-item" href="#" onclick="updateStatus(<?php echo $facility['id']; ?>, 'active')"><i class="fas fa-play me-2"></i>Aktifkan</a></li>
+                                                <?php if ($facility['status'] !== 'maintenance'): ?>
+                                                    <li><a class="dropdown-item" href="#" onclick="updateStatus(<?php echo $facility['id']; ?>, 'maintenance')"><i class="fas fa-tools me-2"></i>Set Maintenance</a></li>
+                                                <?php endif; ?>
+                                                <?php if ($facility['status'] !== 'available'): ?>
+                                                    <li><a class="dropdown-item" href="#" onclick="updateStatus(<?php echo $facility['id']; ?>, 'available')"><i class="fas fa-check me-2"></i>Set Tersedia</a></li>
                                                 <?php endif; ?>
                                                 <li><hr class="dropdown-divider"></li>
                                                 <li><a class="dropdown-item text-danger" href="#" onclick="deleteFacility(<?php echo $facility['id']; ?>)"><i class="fas fa-trash me-2"></i>Hapus</a></li>
@@ -694,7 +683,7 @@ $status_config = [
                             
                             <div class="facility-body">
                                 <?php if ($facility['description']): ?>
-                                    <p class="text-muted mb-3"><?php echo nl2br(htmlspecialchars($facility['description'])); ?></p>
+                                    <p class="text-muted mb-3"><?php echo nl2br(htmlspecialchars($facility['description'] ?? '')); ?></p>
                                 <?php endif; ?>
                                 
                                 <div class="usage-stats">

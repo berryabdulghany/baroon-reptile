@@ -183,11 +183,12 @@ $status_config = [
     'failed' => ['class' => 'danger', 'icon' => 'times-circle', 'text' => 'Failed']
 ];
 
-$payment_methods = ['cash', 'transfer', 'credit_card'];
+$payment_methods = ['cash', 'transfer', 'credit_card', 'e_wallet'];
 $method_labels = [
     'cash' => 'Cash',
     'transfer' => 'Bank Transfer',
-    'credit_card' => 'Credit Card'
+    'credit_card' => 'Credit Card',
+    'e_wallet' => 'E-Wallet'
 ];
 ?>
 <!DOCTYPE html>
@@ -454,16 +455,6 @@ $method_labels = [
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="categories.php">
-                        <i class="fas fa-tags"></i>Kategori
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="testimonials.php">
-                        <i class="fas fa-star"></i>Testimoni
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="settings.php">
                         <i class="fas fa-cog"></i>Pengaturan
                     </a>
@@ -488,7 +479,7 @@ $method_labels = [
                     <i class="fas fa-user-circle me-2"></i><?php echo htmlspecialchars($_SESSION['full_name']); ?>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="profile.php"><i class="fas fa-user me-2"></i>Profile</a></li>
+                    <li><a class="dropdown-item" href="settings.php"><i class="fas fa-user me-2"></i>Profile</a></li>
                     <li><a class="dropdown-item" href="settings.php"><i class="fas fa-cog me-2"></i>Settings</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="../auth/logout.php"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
@@ -695,7 +686,7 @@ $method_labels = [
                                 <?php if ($payment['notes']): ?>
                                     <div class="mt-3">
                                         <strong>Notes:</strong>
-                                        <p class="text-muted mb-0"><?php echo nl2br(htmlspecialchars($payment['notes'])); ?></p>
+                                        <p class="text-muted mb-0"><?php echo nl2br(htmlspecialchars($payment['notes'] ?? '')); ?></p>
                                     </div>
                                 <?php endif; ?>
                             </div>

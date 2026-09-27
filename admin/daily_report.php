@@ -250,7 +250,7 @@ try {
             <div class="row align-items-center">
                 <div class="col-md-2 text-center">
                     <?php if ($booking['reptile_photo']): ?>
-                        <img src="../<?php echo htmlspecialchars($booking['reptile_photo']); ?>" alt="<?php echo htmlspecialchars($booking['reptile_name']); ?>" class="reptile-image">
+                        <img src="../<?php echo htmlspecialchars($booking['reptile_photo'] ?? ''); ?>" alt="<?php echo htmlspecialchars($booking['reptile_name']); ?>" class="reptile-image">
                     <?php else: ?>
                         <div class="reptile-image d-flex align-items-center justify-content-center bg-light">
                             <i class="fas fa-dragon fa-2x text-muted"></i>
@@ -261,7 +261,7 @@ try {
                     <div class="row">
                         <div class="col-md-6">
                             <h5 class="mb-1"><?php echo htmlspecialchars($booking['reptile_name']); ?></h5>
-                            <p class="text-muted mb-1"><?php echo htmlspecialchars($booking['category_name']); ?> - <?php echo htmlspecialchars($booking['species']); ?></p>
+                            <p class="text-muted mb-1"><?php echo htmlspecialchars($booking['category_name']); ?> - <?php echo htmlspecialchars($booking['species'] ?? ''); ?></p>
                             <p class="mb-0"><strong>Customer:</strong> <?php echo htmlspecialchars($booking['customer_name']); ?></p>
                         </div>
                         <div class="col-md-6">
@@ -298,7 +298,7 @@ try {
                                     <i class="fas fa-ellipsis-v"></i>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#" onclick="editReport(<?php echo $report['id']; ?>, '<?php echo $report['health_status']; ?>', '<?php echo htmlspecialchars($report['feeding_notes']); ?>', '<?php echo htmlspecialchars($report['notes']); ?>')">
+                                    <li><a class="dropdown-item" href="#" onclick="editReport(<?php echo $report['id']; ?>, '<?php echo $report['health_status']; ?>', '<?php echo htmlspecialchars($report['feeding_notes'] ?? ''); ?>', '<?php echo htmlspecialchars($report['notes'] ?? ''); ?>')">
                                         <i class="fas fa-edit me-2"></i>Edit
                                     </a></li>
                                     <li><a class="dropdown-item text-danger" href="#" onclick="deleteReport(<?php echo $report['id']; ?>)">
@@ -318,11 +318,11 @@ try {
                             </div>
                             <div class="col-md-4">
                                 <strong>Makanan Diberikan:</strong><br>
-                                <span class="text-muted"><?php echo htmlspecialchars($report['feeding_notes']); ?></span>
+                                <span class="text-muted"><?php echo htmlspecialchars($report['feeding_notes'] ?? ''); ?></span>
                             </div>
                             <div class="col-md-5">
                                 <strong>Catatan:</strong><br>
-                                <span class="text-muted"><?php echo $report['notes'] ? htmlspecialchars($report['notes']) : 'Tidak ada catatan'; ?></span>
+                                <span class="text-muted"><?php echo $report['notes'] ? htmlspecialchars($report['notes'] ?? '') : 'Tidak ada catatan'; ?></span>
                             </div>
                         </div>
                     </div>

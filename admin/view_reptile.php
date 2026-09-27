@@ -357,7 +357,7 @@ try {
                     <i class="fas fa-user-circle me-2"></i><?php echo htmlspecialchars($_SESSION['full_name']); ?>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="profile.php"><i class="fas fa-user me-2"></i>Profile</a></li>
+                    <li><a class="dropdown-item" href="settings.php"><i class="fas fa-user me-2"></i>Profile</a></li>
                     <li><a class="dropdown-item" href="settings.php"><i class="fas fa-cog me-2"></i>Settings</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="../auth/logout.php"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
@@ -372,7 +372,7 @@ try {
                 <div class="row align-items-center">
                     <div class="col-md-3 text-center">
                         <?php if ($reptile['photo']): ?>
-                            <img src="../<?php echo htmlspecialchars($reptile['photo']); ?>" alt="<?php echo htmlspecialchars($reptile['name']); ?>" class="reptile-photo">
+                            <img src="../<?php echo htmlspecialchars($reptile['photo'] ?? ''); ?>" alt="<?php echo htmlspecialchars($reptile['name']); ?>" class="reptile-photo">
                         <?php else: ?>
                             <div class="reptile-photo-placeholder">
                                 <i class="fas fa-dragon"></i>
@@ -381,7 +381,7 @@ try {
                     </div>
                     <div class="col-md-6">
                         <h2 class="mb-2"><?php echo htmlspecialchars($reptile['name']); ?></h2>
-                        <p class="mb-2 opacity-75"><?php echo htmlspecialchars($reptile['species']); ?></p>
+                        <p class="mb-2 opacity-75"><?php echo htmlspecialchars($reptile['species'] ?? ''); ?></p>
                         <div class="d-flex align-items-center gap-3 mb-3">
                             <span class="badge bg-light text-dark"><?php echo htmlspecialchars($reptile['category_name']); ?></span>
                             <span class="status-badge status-<?php echo $reptile['status']; ?>">
@@ -498,7 +498,7 @@ try {
                         <?php if ($reptile['special_needs']): ?>
                             <div class="mt-4">
                                 <strong>Special Needs:</strong>
-                                <p class="mt-2"><?php echo nl2br(htmlspecialchars($reptile['special_needs'])); ?></p>
+                                <p class="mt-2"><?php echo nl2br(htmlspecialchars($reptile['special_needs'] ?? '')); ?></p>
                             </div>
                         <?php endif; ?>
                     </div>
@@ -558,7 +558,7 @@ try {
                         <?php if ($reptile['category_description']): ?>
                             <div class="mt-3">
                                 <strong>Category Description:</strong>
-                                <p class="mt-2"><?php echo nl2br(htmlspecialchars($reptile['category_description'])); ?></p>
+                                <p class="mt-2"><?php echo nl2br(htmlspecialchars($reptile['category_description'] ?? '')); ?></p>
                             </div>
                         <?php endif; ?>
                     </div>

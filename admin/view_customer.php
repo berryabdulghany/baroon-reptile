@@ -365,11 +365,11 @@ try {
                             </div>
                             <div class="info-row">
                                 <span class="info-label">Phone:</span>
-                                <span class="info-value"><?php echo $customer['phone'] ? htmlspecialchars($customer['phone']) : 'Not provided'; ?></span>
+                                <span class="info-value"><?php echo $customer['phone'] ? htmlspecialchars($customer['phone'] ?? '') : 'Not provided'; ?></span>
                             </div>
                             <div class="info-row">
                                 <span class="info-label">Address:</span>
-                                <span class="info-value"><?php echo $customer['address'] ? htmlspecialchars($customer['address']) : 'Not provided'; ?></span>
+                                <span class="info-value"><?php echo $customer['address'] ? htmlspecialchars($customer['address'] ?? '') : 'Not provided'; ?></span>
                             </div>
                             <div class="info-row">
                                 <span class="info-label">Joined:</span>
@@ -521,7 +521,7 @@ try {
                                             <?php foreach ($customer_reptiles as $reptile): ?>
                                                 <tr>
                                                     <td><strong><?php echo htmlspecialchars($reptile['name']); ?></strong></td>
-                                                    <td><?php echo htmlspecialchars($reptile['species']); ?></td>
+                                                    <td><?php echo htmlspecialchars($reptile['species'] ?? ''); ?></td>
                                                     <td><?php echo htmlspecialchars($reptile['category_name']); ?></td>
                                                     <td><?php echo $reptile['age'] ? $reptile['age'] : 'Tidak diketahui'; ?></td>
                                                     <td>

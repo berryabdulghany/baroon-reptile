@@ -22,10 +22,7 @@ try {
     $stmt = $db->prepare("
         SELECT b.*, 
                r.name as reptile_name, r.species, r.age, r.gender, r.photo as reptile_photo,
-               rc.name as category_name, rc.price_per_day,
-               DATEDIFF(b.end_date, b.start_date) as total_days,
-               DATEDIFF(b.end_date, b.start_date) * rc.price_per_day as calculated_base_cost,
-               b.special_requests
+               rc.name as category_name
         FROM bookings b
         LEFT JOIN reptiles r ON b.reptile_id = r.id
         LEFT JOIN reptile_categories rc ON r.category_id = rc.id
@@ -409,7 +406,7 @@ try {
                             </div>
                             <div class="info-row">
                                 <span class="info-label">Permintaan Khusus:</span>
-                                <span class="info-value"><?php echo $booking['special_requests'] ? htmlspecialchars($booking['special_requests']) : 'Tidak ada'; ?></span>
+                                <span class="info-value"><?php echo $booking['notes'] ? htmlspecialchars($booking['notes'] ?? '') : 'Tidak ada'; ?></span>
                             </div>
                         </div>
                     </div>
@@ -474,7 +471,7 @@ try {
                         </div>
                         <div class="detail-body text-center">
                             <?php if ($booking['reptile_photo']): ?>
-                                <img src="../<?php echo htmlspecialchars($booking['reptile_photo']); ?>" alt="<?php echo htmlspecialchars($booking['reptile_name']); ?>" class="reptile-image mb-3">
+                                <img src="../<?php echo htmlspecialchars($booking['reptile_photo'] ?? ''); ?>" alt="<?php echo htmlspecialchars($booking['reptile_name']); ?>" class="reptile-image mb-3">
                             <?php else: ?>
                                 <div class="reptile-image d-flex align-items-center justify-content-center bg-light mb-3 mx-auto">
                                     <i class="fas fa-dragon fa-3x text-muted"></i>
@@ -483,7 +480,7 @@ try {
                             
                             <h5 class="mb-2"><?php echo htmlspecialchars($booking['reptile_name']); ?></h5>
                             <p class="text-muted mb-1"><?php echo htmlspecialchars($booking['category_name']); ?></p>
-                            <p class="text-muted mb-3">Spesies: <?php echo htmlspecialchars($booking['species']); ?></p>
+                            <p class="text-muted mb-3">Spesies: <?php echo htmlspecialchars($booking['species'] ?? ''); ?></p>
                             
                             <div class="row text-start">
                                 <div class="col-6">

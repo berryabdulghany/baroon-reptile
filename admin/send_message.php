@@ -330,12 +330,6 @@ try {
             <a href="facilities.php" class="nav-link">
                 <i class="fas fa-building"></i>Fasilitas
             </a>
-            <a href="categories.php" class="nav-link">
-                <i class="fas fa-tags"></i>Kategori
-            </a>
-            <a href="testimonials.php" class="nav-link">
-                <i class="fas fa-star"></i>Testimoni
-            </a>
             <a href="settings.php" class="nav-link">
                 <i class="fas fa-cog"></i>Pengaturan
             </a>

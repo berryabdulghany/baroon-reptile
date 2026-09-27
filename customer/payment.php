@@ -310,7 +310,7 @@ try {
                                 <div class="row align-items-center">
                                     <div class="col-md-2">
                                         <?php if ($booking['photo']): ?>
-                                            <img src="../<?php echo htmlspecialchars($booking['photo']); ?>" alt="<?php echo htmlspecialchars($booking['reptile_name']); ?>" class="reptile-image">
+                                            <img src="../<?php echo htmlspecialchars($booking['photo'] ?? ''); ?>" alt="<?php echo htmlspecialchars($booking['reptile_name']); ?>" class="reptile-image">
                                         <?php else: ?>
                                             <div class="reptile-image d-flex align-items-center justify-content-center bg-light">
                                                 <i class="fas fa-dragon text-muted"></i>
@@ -320,7 +320,7 @@ try {
                                     <div class="col-md-6">
                                         <h6 class="mb-1"><?php echo htmlspecialchars($booking['reptile_name']); ?></h6>
                                         <small class="text-muted"><?php echo htmlspecialchars($booking['category_name']); ?></small>
-                                        <br><small class="text-muted">Species: <?php echo htmlspecialchars($booking['species']); ?></small>
+                                        <br><small class="text-muted">Species: <?php echo htmlspecialchars($booking['species'] ?? ''); ?></small>
                                     </div>
                                     <div class="col-md-4 text-end">
                                         <div class="amount-display">Rp <?php echo number_format($booking['total_price'], 0, ',', '.'); ?></div>
@@ -349,9 +349,9 @@ try {
                                     
                                     <h6 class="mb-3">Select Payment Method</h6>
                                     
-                                    <div class="payment-method-card" onclick="selectPaymentMethod('bank_transfer')">
-                                        <input type="radio" name="payment_method" value="bank_transfer" id="bank_transfer" required>
-                                        <label for="bank_transfer" class="ms-2">
+                                    <div class="payment-method-card" onclick="selectPaymentMethod('transfer')">
+                                        <input type="radio" name="payment_method" value="transfer" id="transfer" required>
+                                        <label for="transfer" class="ms-2">
                                             <i class="fas fa-university me-2"></i>Bank Transfer
                                         </label>
                                     </div>

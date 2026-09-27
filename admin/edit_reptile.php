@@ -47,8 +47,6 @@ try {
         $gender = $_POST['gender'];
         $weight = $_POST['weight'];
         $length = $_POST['length'];
-        $color = trim($_POST['color']);
-        $description = trim($_POST['description']);
         $special_needs = trim($_POST['special_needs']);
         $status = $_POST['status'];
         
@@ -71,8 +69,8 @@ try {
             $errors[] = 'Customer is required.';
         }
         
-        if (empty($age) || $age < 0) {
-            $errors[] = 'Valid age is required.';
+        if (trim($age) === '') {
+            $errors[] = 'Age is required.';
         }
         
         if (empty($weight) || $weight < 0) {
@@ -82,11 +80,6 @@ try {
         if (empty($length) || $length < 0) {
             $errors[] = 'Valid length is required.';
         }
-        
-        if (empty($color)) {
-            $errors[] = 'Color is required.';
-        }
-        
         // Handle photo upload
         $photo_path = $reptile['photo']; // Keep existing photo by default
         
@@ -128,16 +121,16 @@ try {
                 $stmt = $db->prepare("
                     UPDATE reptiles SET 
                         name = ?, species = ?, category_id = ?, customer_id = ?, 
-                        age = ?, gender = ?, weight = ?, length = ?, color = ?, 
-                        description = ?, special_needs = ?, status = ?, photo = ?,
+                        age = ?, gender = ?, weight = ?, length = ?,
+                        special_needs = ?, status = ?, photo = ?,
                         updated_at = NOW()
                     WHERE id = ?
                 ");
-                
+
                 if ($stmt->execute([
                     $name, $species, $category_id, $customer_id,
-                    $age, $gender, $weight, $length, $color,
-                    $description, $special_needs, $status, $photo_path,
+                    $age, $gender, $weight, $length,
+                    $special_needs, $status, $photo_path,
                     $reptile_id
                 ])) {
                     $success = 'Reptile updated successfully!';
@@ -351,16 +344,6 @@ try {
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="categories.php">
-                        <i class="fas fa-tags"></i>Kategori
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="testimonials.php">
-                        <i class="fas fa-star"></i>Testimoni
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="settings.php">
                         <i class="fas fa-cog"></i>Pengaturan
                     </a>
@@ -384,7 +367,7 @@ try {
                     <i class="fas fa-user-circle me-2"></i><?php echo htmlspecialchars($_SESSION['full_name']); ?>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="profile.php"><i class="fas fa-user me-2"></i>Profile</a></li>
+                    <li><a class="dropdown-item" href="settings.php"><i class="fas fa-user me-2"></i>Profile</a></li>
                     <li><a class="dropdown-item" href="settings.php"><i class="fas fa-cog me-2"></i>Settings</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="../auth/logout.php"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
@@ -438,7 +421,7 @@ try {
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="species" class="form-label">Species <span class="required">*</span></label>
-                                    <input type="text" class="form-control" id="species" name="species" value="<?php echo htmlspecialchars($reptile['species']); ?>" required>
+                                    <input type="text" class="form-control" id="species" name="species" value="<?php echo htmlspecialchars($reptile['species'] ?? ''); ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -490,8 +473,8 @@ try {
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="mb-3">
-                                    <label for="age" class="form-label">Age (months) <span class="required">*</span></label>
-                                    <input type="number" class="form-control" id="age" name="age" value="<?php echo $reptile['age']; ?>" min="0" required>
+                                    <label for="age" class="form-label">Age <span class="required">*</span></label>
+                                    <input type="text" class="form-control" id="age" name="age" value="<?php echo htmlspecialchars($reptile['age'] ?? ''); ?>" placeholder="e.g. 2 tahun" required>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -506,8 +489,8 @@ try {
                             </div>
                             <div class="col-md-3">
                                 <div class="mb-3">
-                                    <label for="weight" class="form-label">Weight (grams) <span class="required">*</span></label>
-                                    <input type="number" class="form-control" id="weight" name="weight" value="<?php echo $reptile['weight']; ?>" min="0" step="0.1" required>
+                                    <label for="weight" class="form-label">Weight (kg) <span class="required">*</span></label>
+                                    <input type="number" class="form-control" id="weight" name="weight" value="<?php echo $reptile['weight']; ?>" min="0" step="0.01" required>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -516,11 +499,6 @@ try {
                                     <input type="number" class="form-control" id="length" name="length" value="<?php echo $reptile['length']; ?>" min="0" step="0.1" required>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="color" class="form-label">Color <span class="required">*</span></label>
-                            <input type="text" class="form-control" id="color" name="color" value="<?php echo htmlspecialchars($reptile['color']); ?>" required>
                         </div>
                     </div>
                     
@@ -542,7 +520,7 @@ try {
                                 <label class="form-label">Current Photo</label>
                                 <div>
                                     <?php if ($reptile['photo']): ?>
-                                        <img src="../<?php echo htmlspecialchars($reptile['photo']); ?>" alt="Current photo" class="current-photo">
+                                        <img src="../<?php echo htmlspecialchars($reptile['photo'] ?? ''); ?>" alt="Current photo" class="current-photo">
                                     <?php else: ?>
                                         <div class="photo-placeholder">
                                             <i class="fas fa-dragon"></i>
@@ -560,13 +538,8 @@ try {
                         </h5>
                         
                         <div class="mb-3">
-                            <label for="description" class="form-label">Description</label>
-                            <textarea class="form-control" id="description" name="description" rows="4" placeholder="General description about the reptile..."><?php echo htmlspecialchars($reptile['description']); ?></textarea>
-                        </div>
-                        
-                        <div class="mb-3">
                             <label for="special_needs" class="form-label">Special Needs</label>
-                            <textarea class="form-control" id="special_needs" name="special_needs" rows="3" placeholder="Any special care requirements..."><?php echo htmlspecialchars($reptile['special_needs']); ?></textarea>
+                            <textarea class="form-control" id="special_needs" name="special_needs" rows="3" placeholder="Any special care requirements..."><?php echo htmlspecialchars($reptile['special_needs'] ?? ''); ?></textarea>
                         </div>
                     </div>
                     

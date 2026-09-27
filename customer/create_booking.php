@@ -347,7 +347,7 @@ try {
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="reports.php">
+                    <a class="nav-link" href="care_reports.php">
                         <i class="fas fa-file-alt"></i>Care Reports
                     </a>
                 </li>
@@ -430,8 +430,8 @@ try {
                                                     data-name="<?php echo htmlspecialchars($r['name']); ?>"
                                                     data-category="<?php echo htmlspecialchars($r['category_name']); ?>"
                                                     data-price="<?php echo $r['price_per_day']; ?>"
-                                                    data-photo="<?php echo htmlspecialchars($r['photo']); ?>"
-                                                    data-species="<?php echo htmlspecialchars($r['species']); ?>"
+                                                    data-photo="<?php echo htmlspecialchars($r['photo'] ?? ''); ?>"
+                                                    data-species="<?php echo htmlspecialchars($r['species'] ?? ''); ?>"
                                                     <?php echo ($reptile && $reptile['id'] == $r['id']) ? 'selected' : ''; ?>
                                                     <?php echo (isset($_POST['reptile_id']) && $_POST['reptile_id'] == $r['id']) ? 'selected' : ''; ?>>
                                                 <?php echo htmlspecialchars($r['name']); ?> - <?php echo htmlspecialchars($r['category_name']); ?>
@@ -500,7 +500,7 @@ try {
                                                             <div class="d-flex justify-content-between align-items-center">
                                                                 <div>
                                                                     <strong><?php echo htmlspecialchars($facility['name']); ?></strong>
-                                                                    <br><small class="text-muted"><?php echo htmlspecialchars($facility['description']); ?></small>
+                                                                    <br><small class="text-muted"><?php echo htmlspecialchars($facility['description'] ?? ''); ?></small>
                                                                 </div>
                                                                 <div class="text-success fw-bold">
                                                                     +Rp <?php echo number_format($facility['price_per_day'], 0, ',', '.'); ?>/hari

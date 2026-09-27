@@ -430,16 +430,6 @@ $status_config = [
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="categories.php">
-                        <i class="fas fa-tags"></i>Kategori
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="testimonials.php">
-                        <i class="fas fa-star"></i>Testimoni
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="settings.php">
                         <i class="fas fa-cog"></i>Pengaturan
                     </a>
@@ -461,7 +451,7 @@ $status_config = [
                     <i class="fas fa-user-circle me-2"></i><?php echo htmlspecialchars($_SESSION['full_name']); ?>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="profile.php"><i class="fas fa-user me-2"></i>Profile</a></li>
+                    <li><a class="dropdown-item" href="settings.php"><i class="fas fa-user me-2"></i>Profile</a></li>
                     <li><a class="dropdown-item" href="settings.php"><i class="fas fa-cog me-2"></i>Settings</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="../auth/logout.php"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
@@ -603,7 +593,7 @@ $status_config = [
                                                 <h6 class="mb-1"><?php echo htmlspecialchars($booking['customer_name']); ?></h6>
                                                 <small class="text-muted"><?php echo htmlspecialchars($booking['customer_email']); ?></small>
                                                 <?php if ($booking['customer_phone']): ?>
-                                                    <br><small class="text-muted"><?php echo htmlspecialchars($booking['customer_phone']); ?></small>
+                                                    <br><small class="text-muted"><?php echo htmlspecialchars($booking['customer_phone'] ?? ''); ?></small>
                                                 <?php endif; ?>
                                             </div>
                                         </div>
@@ -611,7 +601,7 @@ $status_config = [
                                     <div class="col-md-4">
                                         <div class="reptile-info">
                                             <?php if ($booking['reptile_photo']): ?>
-                                                <img src="../<?php echo htmlspecialchars($booking['reptile_photo']); ?>" alt="<?php echo htmlspecialchars($booking['reptile_name']); ?>" class="reptile-image">
+                                                <img src="../<?php echo htmlspecialchars($booking['reptile_photo'] ?? ''); ?>" alt="<?php echo htmlspecialchars($booking['reptile_name']); ?>" class="reptile-image">
                                             <?php else: ?>
                                                 <div class="reptile-image d-flex align-items-center justify-content-center bg-light">
                                                     <i class="fas fa-dragon text-muted"></i>
@@ -696,7 +686,7 @@ $status_config = [
                                     </div>
                                     <div class="col-md-6 text-md-end">
                                         <div class="btn-group" role="group">
-                                            <a href="view_booking.php?id=<?php echo $booking['id']; ?>" class="btn btn-outline-primary btn-sm">
+                                            <a href="booking_detail.php?id=<?php echo $booking['id']; ?>" class="btn btn-outline-primary btn-sm">
                                                 <i class="fas fa-eye me-1"></i>Detail
                                             </a>
                                             
@@ -705,11 +695,7 @@ $status_config = [
                                                     <i class="fas fa-file-alt me-1"></i>Laporan
                                                 </a>
                                             <?php endif; ?>
-                                            
-                                            <a href="edit_booking.php?id=<?php echo $booking['id']; ?>" class="btn btn-outline-warning btn-sm">
-                                                <i class="fas fa-edit me-1"></i>Edit
-                                            </a>
-                                            
+
                                             <?php if (!$booking['payment_status'] && $booking['status'] === 'confirmed'): ?>
                                                 <a href="create_payment.php?booking_id=<?php echo $booking['id']; ?>" class="btn btn-success btn-sm">
                                                     <i class="fas fa-plus me-1"></i>Payment

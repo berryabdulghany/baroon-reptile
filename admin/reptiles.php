@@ -476,16 +476,6 @@ try {
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="categories.php">
-                        <i class="fas fa-tags"></i>Kategori
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="testimonials.php">
-                        <i class="fas fa-star"></i>Testimoni
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="settings.php">
                         <i class="fas fa-cog"></i>Pengaturan
                     </a>
@@ -507,7 +497,7 @@ try {
                     <i class="fas fa-user-circle me-2"></i><?php echo htmlspecialchars($_SESSION['full_name']); ?>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="profile.php"><i class="fas fa-user me-2"></i>Profile</a></li>
+                    <li><a class="dropdown-item" href="settings.php"><i class="fas fa-user me-2"></i>Profile</a></li>
                     <li><a class="dropdown-item" href="settings.php"><i class="fas fa-cog me-2"></i>Settings</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="../auth/logout.php"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
@@ -662,7 +652,7 @@ try {
                             </div>
                             
                             <?php if ($reptile['photo']): ?>
-                                <img src="../<?php echo htmlspecialchars($reptile['photo']); ?>" alt="<?php echo htmlspecialchars($reptile['name']); ?>" class="reptile-image">
+                                <img src="../<?php echo htmlspecialchars($reptile['photo'] ?? ''); ?>" alt="<?php echo htmlspecialchars($reptile['name']); ?>" class="reptile-image">
                             <?php else: ?>
                                 <div class="reptile-image-placeholder">
                                     <i class="fas fa-dragon"></i>
@@ -673,7 +663,7 @@ try {
                                 <div class="d-flex justify-content-between align-items-start">
                                     <div>
                                         <h5 class="mb-1"><?php echo htmlspecialchars($reptile['name']); ?></h5>
-                                        <p class="text-muted mb-2"><?php echo htmlspecialchars($reptile['species']); ?></p>
+                                        <p class="text-muted mb-2"><?php echo htmlspecialchars($reptile['species'] ?? ''); ?></p>
                                         <span class="category-badge"><?php echo htmlspecialchars($reptile['category_name']); ?></span>
                                     </div>
                                     <div class="text-end">
@@ -719,7 +709,7 @@ try {
                                 <?php if ($reptile['special_needs']): ?>
                                     <div class="mt-2">
                                         <small class="text-muted">Kebutuhan Khusus:</small>
-                                        <p class="small mb-0"><?php echo nl2br(htmlspecialchars($reptile['special_needs'])); ?></p>
+                                        <p class="small mb-0"><?php echo nl2br(htmlspecialchars($reptile['special_needs'] ?? '')); ?></p>
                                     </div>
                                 <?php endif; ?>
                                 
@@ -772,7 +762,7 @@ try {
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-end">
-                                                <li><a class="dropdown-item" href="reptile_history.php?id=<?php echo $reptile['id']; ?>"><i class="fas fa-history me-2"></i>History</a></li>
+                                                <li><a class="dropdown-item" href="reptile_bookings.php?reptile_id=<?php echo $reptile['id']; ?>"><i class="fas fa-history me-2"></i>History</a></li>
                                                 <li><a class="dropdown-item" href="create_booking.php?reptile_id=<?php echo $reptile['id']; ?>"><i class="fas fa-plus me-2"></i>Create Booking</a></li>
                                                 <li><hr class="dropdown-divider"></li>
                                                 <li><a class="dropdown-item text-danger" href="#" onclick="confirmDelete(<?php echo $reptile['id']; ?>)"><i class="fas fa-trash me-2"></i>Delete</a></li>

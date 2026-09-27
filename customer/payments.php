@@ -30,7 +30,7 @@ try {
             
             if (!$stmt->fetch()) {
                 // Create payment
-                $stmt = $db->prepare("INSERT INTO payments (booking_id, amount, payment_method, status, created_at) VALUES (?, ?, ?, 'pending', NOW())");
+                $stmt = $db->prepare("INSERT INTO payments (booking_id, amount, payment_method, payment_status, created_at) VALUES (?, ?, ?, 'pending', NOW())");
                 $stmt->execute([$booking_id, $amount, $payment_method]);
                 
                 $message = '<div class="alert alert-success"><i class="fas fa-check-circle me-2"></i>Payment created successfully!</div>';
@@ -140,7 +140,7 @@ $status_labels = [
 ];
 
 $method_labels = [
-    'bank_transfer' => 'Bank Transfer',
+    'transfer' => 'Bank Transfer',
     'credit_card' => 'Credit Card',
     'e_wallet' => 'E-Wallet',
     'cash' => 'Cash'
@@ -522,7 +522,7 @@ $method_labels = [
                                                     <div class="col-md-4">
                                                         <div class="reptile-info">
                                                             <?php if ($payment['photo']): ?>
-                                                                <img src="../uploads/reptiles/<?php echo htmlspecialchars($payment['photo']); ?>" 
+                                                                <img src="../uploads/reptiles/<?php echo htmlspecialchars($payment['photo'] ?? ''); ?>" 
                                                                      class="reptile-photo" alt="Reptile">
                                                             <?php else: ?>
                                                                 <div class="reptile-photo bg-secondary d-flex align-items-center justify-content-center">
@@ -531,7 +531,7 @@ $method_labels = [
                                                             <?php endif; ?>
                                                             <div>
                                                                 <h6 class="mb-1"><?php echo htmlspecialchars($payment['reptile_name']); ?></h6>
-                                                                <small class="text-muted"><?php echo htmlspecialchars($payment['species']); ?></small>
+                                                                <small class="text-muted"><?php echo htmlspecialchars($payment['species'] ?? ''); ?></small>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -591,7 +591,7 @@ $method_labels = [
                                     <div class="col-md-4">
                                         <div class="reptile-info">
                                             <?php if ($booking['photo']): ?>
-                                                <img src="../uploads/reptiles/<?php echo htmlspecialchars($booking['photo']); ?>" 
+                                                <img src="../uploads/reptiles/<?php echo htmlspecialchars($booking['photo'] ?? ''); ?>" 
                                                      class="reptile-photo" alt="Reptile">
                                             <?php else: ?>
                                                 <div class="reptile-photo bg-secondary d-flex align-items-center justify-content-center">
@@ -600,7 +600,7 @@ $method_labels = [
                                             <?php endif; ?>
                                             <div>
                                                 <h6 class="mb-1"><?php echo htmlspecialchars($booking['reptile_name']); ?></h6>
-                                                <small class="text-muted"><?php echo htmlspecialchars($booking['species']); ?></small>
+                                                <small class="text-muted"><?php echo htmlspecialchars($booking['species'] ?? ''); ?></small>
                                             </div>
                                         </div>
                                     </div>
@@ -646,7 +646,7 @@ $method_labels = [
                             <label class="form-label">Payment Method</label>
                             <select name="payment_method" class="form-select" required>
                                 <option value="">Select payment method</option>
-                                <option value="bank_transfer">Bank Transfer</option>
+                                <option value="transfer">Bank Transfer</option>
                                 <option value="credit_card">Credit Card</option>
                                 <option value="e_wallet">E-Wallet</option>
                                 <option value="cash">Cash</option>

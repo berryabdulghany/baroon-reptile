@@ -270,7 +270,7 @@ try {
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="reports.php">
+                    <a class="nav-link" href="care_reports.php">
                         <i class="fas fa-file-alt"></i>Care Reports
                     </a>
                 </li>
@@ -355,7 +355,7 @@ try {
                                         <?php foreach ($categories as $category): ?>
                                             <option value="<?php echo $category['id']; ?>" 
                                                     data-price="<?php echo $category['price_per_day']; ?>"
-                                                    data-description="<?php echo htmlspecialchars($category['description']); ?>"
+                                                    data-description="<?php echo htmlspecialchars($category['description'] ?? ''); ?>"
                                                     <?php echo (isset($_POST['category_id']) && $_POST['category_id'] == $category['id']) ? 'selected' : ''; ?>>
                                                 <?php echo htmlspecialchars($category['name']); ?>
                                             </option>

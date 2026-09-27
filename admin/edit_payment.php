@@ -82,11 +82,12 @@ $status_config = [
     'failed' => ['class' => 'danger', 'icon' => 'times-circle', 'text' => 'Failed']
 ];
 
-$payment_methods = ['cash', 'transfer', 'credit_card'];
+$payment_methods = ['cash', 'transfer', 'credit_card', 'e_wallet'];
 $method_labels = [
     'cash' => 'Cash',
     'transfer' => 'Bank Transfer',
-    'credit_card' => 'Credit Card'
+    'credit_card' => 'Credit Card',
+    'e_wallet' => 'E-Wallet'
 ];
 ?>
 <!DOCTYPE html>
@@ -230,7 +231,7 @@ $method_labels = [
                             <div class="mb-3">
                                 <label for="notes" class="form-label">Notes</label>
                                 <textarea class="form-control" id="notes" name="notes" rows="4" 
-                                          placeholder="Add any notes about this payment..."><?php echo htmlspecialchars($payment['notes']); ?></textarea>
+                                          placeholder="Add any notes about this payment..."><?php echo htmlspecialchars($payment['notes'] ?? ''); ?></textarea>
                             </div>
                             
                             <div class="d-flex justify-content-between">

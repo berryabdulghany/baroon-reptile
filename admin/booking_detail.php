@@ -23,10 +23,7 @@ try {
         SELECT b.*, 
                u.full_name as customer_name, u.email as customer_email, u.phone as customer_phone,
                r.name as reptile_name, r.species, r.age, r.gender, r.photo as reptile_photo,
-               rc.name as category_name, rc.price_per_day,
-               DATEDIFF(b.end_date, b.start_date) as total_days,
-               DATEDIFF(b.end_date, b.start_date) * rc.price_per_day as calculated_base_cost,
-               b.special_requests
+               rc.name as category_name
         FROM bookings b
         LEFT JOIN users u ON b.customer_id = u.id
         LEFT JOIN reptiles r ON b.reptile_id = r.id
@@ -48,11 +45,11 @@ try {
     
     // Get care reports for this booking
     $stmt = $db->prepare("
-        SELECT cr.*, u.full_name as staff_name
-        FROM care_reports cr
-        LEFT JOIN users u ON cr.staff_id = u.id
-        WHERE cr.booking_id = ?
-        ORDER BY cr.report_date DESC
+        SELECT dr.*, u.full_name as staff_name
+        FROM daily_reports dr
+        LEFT JOIN users u ON dr.created_by = u.id
+        WHERE dr.booking_id = ?
+        ORDER BY dr.report_date DESC
     ");
     $stmt->execute([$booking_id]);
     $care_reports = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -410,7 +407,7 @@ try {
                             </div>
                             <div class="info-row">
                                 <span class="info-label">Special Requests:</span>
-                                <span class="info-value"><?php echo $booking['special_requests'] ? htmlspecialchars($booking['special_requests']) : 'None'; ?></span>
+                                <span class="info-value"><?php echo $booking['notes'] ? htmlspecialchars($booking['notes'] ?? '') : 'None'; ?></span>
                             </div>
                         </div>
                     </div>
@@ -431,7 +428,7 @@ try {
                             </div>
                             <div class="info-row">
                                 <span class="info-label">Phone:</span>
-                                <span class="info-value"><?php echo $booking['customer_phone'] ? htmlspecialchars($booking['customer_phone']) : 'Not provided'; ?></span>
+                                <span class="info-value"><?php echo $booking['customer_phone'] ? htmlspecialchars($booking['customer_phone'] ?? '') : 'Not provided'; ?></span>
                             </div>
                         </div>
                     </div>
@@ -480,7 +477,7 @@ try {
                         </div>
                         <div class="detail-body text-center">
                             <?php if ($booking['reptile_photo']): ?>
-                                <img src="../<?php echo htmlspecialchars($booking['reptile_photo']); ?>" alt="<?php echo htmlspecialchars($booking['reptile_name']); ?>" class="reptile-image mb-3">
+                                <img src="../<?php echo htmlspecialchars($booking['reptile_photo'] ?? ''); ?>" alt="<?php echo htmlspecialchars($booking['reptile_name']); ?>" class="reptile-image mb-3">
                             <?php else: ?>
                                 <div class="reptile-image d-flex align-items-center justify-content-center bg-light mb-3 mx-auto">
                                     <i class="fas fa-dragon fa-3x text-muted"></i>
@@ -489,7 +486,7 @@ try {
                             
                             <h5 class="mb-2"><?php echo htmlspecialchars($booking['reptile_name']); ?></h5>
                             <p class="text-muted mb-1"><?php echo htmlspecialchars($booking['category_name']); ?></p>
-                            <p class="text-muted mb-3">Species: <?php echo htmlspecialchars($booking['species']); ?></p>
+                            <p class="text-muted mb-3">Species: <?php echo htmlspecialchars($booking['species'] ?? ''); ?></p>
                             
                             <div class="row text-start">
                                 <div class="col-6">
@@ -549,11 +546,11 @@ try {
                             <div class="care-report-item">
                                 <div class="d-flex justify-content-between align-items-start mb-2">
                                     <h6 class="mb-0"><?php echo date('d M Y', strtotime($report['report_date'])); ?></h6>
-                                    <small class="text-muted">by <?php echo htmlspecialchars($report['staff_name']); ?></small>
+                                    <small class="text-muted">by <?php echo htmlspecialchars($report['staff_name'] ?? ''); ?></small>
                                 </div>
                                 <p class="mb-1"><strong>Health Status:</strong> <?php echo htmlspecialchars($report['health_status']); ?></p>
-                                <p class="mb-1"><strong>Food Given:</strong> <?php echo htmlspecialchars($report['food_given']); ?></p>
-                                <p class="mb-0"><strong>Notes:</strong> <?php echo htmlspecialchars($report['notes']); ?></p>
+                                <p class="mb-1"><strong>Food Given:</strong> <?php echo htmlspecialchars($report['feeding_notes'] ?? '-'); ?></p>
+                                <p class="mb-0"><strong>Notes:</strong> <?php echo htmlspecialchars($report['notes'] ?? ''); ?></p>
                             </div>
                         <?php endforeach; ?>
                     </div>

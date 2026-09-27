@@ -438,7 +438,7 @@ try {
                     <?php foreach ($reptiles as $reptile): ?>
                         <div class="reptile-card" data-name="<?php echo strtolower($reptile['name']); ?>" data-category="<?php echo strtolower($reptile['category_name']); ?>" data-status="<?php echo $reptile['active_bookings'] > 0 ? 'active' : 'inactive'; ?>">
                             <?php if ($reptile['photo']): ?>
-                                <img src="../<?php echo htmlspecialchars($reptile['photo']); ?>" alt="<?php echo htmlspecialchars($reptile['name']); ?>" class="reptile-image">
+                                <img src="../<?php echo htmlspecialchars($reptile['photo'] ?? ''); ?>" alt="<?php echo htmlspecialchars($reptile['name']); ?>" class="reptile-image">
                             <?php else: ?>
                                 <div class="reptile-image d-flex align-items-center justify-content-center">
                                     <i class="fas fa-dragon fa-3x text-muted"></i>
@@ -460,14 +460,14 @@ try {
                                 
                                 <?php if ($reptile['species']): ?>
                                     <div class="text-muted mb-2">
-                                        <i class="fas fa-dna me-1"></i><?php echo htmlspecialchars($reptile['species']); ?>
+                                        <i class="fas fa-dna me-1"></i><?php echo htmlspecialchars($reptile['species'] ?? ''); ?>
                                     </div>
                                 <?php endif; ?>
                                 
                                 <div class="reptile-stats">
                                     <?php if ($reptile['age']): ?>
                                         <div class="stat-item">
-                                            <span class="stat-value"><?php echo htmlspecialchars($reptile['age']); ?></span>
+                                            <span class="stat-value"><?php echo htmlspecialchars($reptile['age'] ?? ''); ?></span>
                                             <span class="stat-label">Umur</span>
                                         </div>
                                     <?php endif; ?>

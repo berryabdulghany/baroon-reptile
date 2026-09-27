@@ -22,7 +22,7 @@ try {
         SELECT p.*, 
                b.id as booking_id, b.start_date, b.end_date, b.total_price as booking_total, b.status as booking_status,
                u.full_name as customer_name, u.email as customer_email, u.phone as customer_phone,
-               r.name as reptile_name, r.description as reptile_description,
+               r.name as reptile_name,
                rc.name as category_name
         FROM payments p 
         LEFT JOIN bookings b ON p.booking_id = b.id
@@ -55,7 +55,8 @@ $status_config = [
 $method_labels = [
     'cash' => 'Cash',
     'transfer' => 'Bank Transfer',
-    'credit_card' => 'Credit Card'
+    'credit_card' => 'Credit Card',
+    'e_wallet' => 'E-Wallet'
 ];
 ?>
 <!DOCTYPE html>
@@ -166,7 +167,7 @@ $method_labels = [
                                 <div class="info-row">
                                     <div class="row">
                                         <div class="col-4"><strong>Notes:</strong></div>
-                                        <div class="col-8"><?php echo nl2br(htmlspecialchars($payment['notes'])); ?></div>
+                                        <div class="col-8"><?php echo nl2br(htmlspecialchars($payment['notes'] ?? '')); ?></div>
                                     </div>
                                 </div>
                                 <?php endif; ?>
@@ -190,7 +191,7 @@ $method_labels = [
                                 <div class="info-row">
                                     <div class="row">
                                         <div class="col-4"><strong>Phone:</strong></div>
-                                        <div class="col-8"><?php echo htmlspecialchars($payment['customer_phone']); ?></div>
+                                        <div class="col-8"><?php echo htmlspecialchars($payment['customer_phone'] ?? ''); ?></div>
                                     </div>
                                 </div>
                                 <?php endif; ?>

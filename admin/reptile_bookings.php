@@ -356,7 +356,7 @@ try {
                     <i class="fas fa-user-circle me-2"></i><?php echo htmlspecialchars($_SESSION['full_name']); ?>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="profile.php"><i class="fas fa-user me-2"></i>Profile</a></li>
+                    <li><a class="dropdown-item" href="settings.php"><i class="fas fa-user me-2"></i>Profile</a></li>
                     <li><a class="dropdown-item" href="settings.php"><i class="fas fa-cog me-2"></i>Settings</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="../auth/logout.php"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
@@ -371,7 +371,7 @@ try {
                 <div class="row align-items-center">
                     <div class="col-md-8">
                         <h2 class="mb-2">Bookings for <?php echo htmlspecialchars($reptile['name']); ?></h2>
-                        <p class="mb-0 opacity-75"><?php echo htmlspecialchars($reptile['species']); ?></p>
+                        <p class="mb-0 opacity-75"><?php echo htmlspecialchars($reptile['species'] ?? ''); ?></p>
                     </div>
                     <div class="col-md-4 text-end">
                         <a href="create_booking.php?reptile_id=<?php echo $reptile['id']; ?>" class="btn btn-light">
@@ -544,14 +544,14 @@ try {
                                 <?php if ($booking['notes']): ?>
                                     <div class="mt-3">
                                         <strong>Notes:</strong>
-                                        <p class="mb-0 text-muted"><?php echo nl2br(htmlspecialchars($booking['notes'])); ?></p>
+                                        <p class="mb-0 text-muted"><?php echo nl2br(htmlspecialchars($booking['notes'] ?? '')); ?></p>
                                     </div>
                                 <?php endif; ?>
                             </div>
                             
                             <div class="col-md-4">
                                 <div class="booking-actions">
-                                    <a href="../customer/booking_details.php?id=<?php echo $booking['id']; ?>" class="btn btn-outline-primary btn-sm">
+                                    <a href="booking_detail.php?id=<?php echo $booking['id']; ?>" class="btn btn-outline-primary btn-sm">
                                         <i class="fas fa-eye me-1"></i>View
                                     </a>
                                     

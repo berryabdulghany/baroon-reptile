@@ -494,9 +494,9 @@ try {
                     <div class="col-md-8">
                         <div class="d-flex align-items-center gap-3 flex-wrap">
                             <div class="btn-group" role="group">
-                                <a href="?status=all&sort=<?php echo $sort_by; ?>" class="btn <?php echo $status_filter === 'all' ? 'btn-primary' : 'btn-outline-secondary'; ?>">Semua</a>
-                                <a href="?status=active&sort=<?php echo $sort_by; ?>" class="btn <?php echo $status_filter === 'active' ? 'btn-success' : 'btn-outline-success'; ?>">Aktif</a>
-                                <a href="?status=inactive&sort=<?php echo $sort_by; ?>" class="btn <?php echo $status_filter === 'inactive' ? 'btn-danger' : 'btn-outline-danger'; ?>">Tidak Aktif</a>
+                                <a href="?status=all&sort=<?php echo urlencode($sort_by); ?>" class="btn <?php echo $status_filter === 'all' ? 'btn-primary' : 'btn-outline-secondary'; ?>">Semua</a>
+                                <a href="?status=active&sort=<?php echo urlencode($sort_by); ?>" class="btn <?php echo $status_filter === 'active' ? 'btn-success' : 'btn-outline-success'; ?>">Aktif</a>
+                                <a href="?status=inactive&sort=<?php echo urlencode($sort_by); ?>" class="btn <?php echo $status_filter === 'inactive' ? 'btn-danger' : 'btn-outline-danger'; ?>">Tidak Aktif</a>
                             </div>
                             
                             <div class="dropdown">
@@ -504,11 +504,11 @@ try {
                                     <i class="fas fa-sort me-2"></i>Urutkan
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item <?php echo $sort_by === 'newest' ? 'active' : ''; ?>" href="?status=<?php echo $status_filter; ?>&sort=newest">Terbaru</a></li>
-                                    <li><a class="dropdown-item <?php echo $sort_by === 'oldest' ? 'active' : ''; ?>" href="?status=<?php echo $status_filter; ?>&sort=oldest">Terlama</a></li>
-                                    <li><a class="dropdown-item <?php echo $sort_by === 'name_asc' ? 'active' : ''; ?>" href="?status=<?php echo $status_filter; ?>&sort=name_asc">Nama A-Z</a></li>
-                                    <li><a class="dropdown-item <?php echo $sort_by === 'name_desc' ? 'active' : ''; ?>" href="?status=<?php echo $status_filter; ?>&sort=name_desc">Nama Z-A</a></li>
-                                    <li><a class="dropdown-item <?php echo $sort_by === 'most_bookings' ? 'active' : ''; ?>" href="?status=<?php echo $status_filter; ?>&sort=most_bookings">Paling Aktif</a></li>
+                                    <li><a class="dropdown-item <?php echo $sort_by === 'newest' ? 'active' : ''; ?>" href="?status=<?php echo urlencode($status_filter); ?>&sort=newest">Terbaru</a></li>
+                                    <li><a class="dropdown-item <?php echo $sort_by === 'oldest' ? 'active' : ''; ?>" href="?status=<?php echo urlencode($status_filter); ?>&sort=oldest">Terlama</a></li>
+                                    <li><a class="dropdown-item <?php echo $sort_by === 'name_asc' ? 'active' : ''; ?>" href="?status=<?php echo urlencode($status_filter); ?>&sort=name_asc">Nama A-Z</a></li>
+                                    <li><a class="dropdown-item <?php echo $sort_by === 'name_desc' ? 'active' : ''; ?>" href="?status=<?php echo urlencode($status_filter); ?>&sort=name_desc">Nama Z-A</a></li>
+                                    <li><a class="dropdown-item <?php echo $sort_by === 'most_bookings' ? 'active' : ''; ?>" href="?status=<?php echo urlencode($status_filter); ?>&sort=most_bookings">Paling Aktif</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -632,6 +632,7 @@ try {
                                         </a>
                                         
                                         <form method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin mengubah status customer ini?')">
+                                            <?php echo csrf_field(); ?>
                                             <input type="hidden" name="action" value="toggle_status">
                                             <input type="hidden" name="customer_id" value="<?php echo $customer['id']; ?>">
                                             <input type="hidden" name="status" value="<?php echo $customer['status']; ?>">
@@ -684,6 +685,7 @@ try {
                 const form = document.createElement('form');
                 form.method = 'POST';
                 form.innerHTML = `
+                    <?php echo csrf_field(); ?>
                     <input type="hidden" name="action" value="delete_customer">
                     <input type="hidden" name="customer_id" value="${customerId}">
                 `;

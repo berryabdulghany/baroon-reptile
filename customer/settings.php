@@ -530,6 +530,7 @@ try {
                         </div>
                         <div class="settings-card-body p-0">
                             <form method="POST">
+                                <?php echo csrf_field(); ?>
                                 <input type="hidden" name="action" value="update_notifications">
                                 
                                 <div class="setting-item">
@@ -580,6 +581,7 @@ try {
                         </div>
                         <div class="settings-card-body">
                             <form method="POST">
+                                <?php echo csrf_field(); ?>
                                 <input type="hidden" name="action" value="update_privacy">
                                 
                                 <div class="mb-4">
@@ -688,6 +690,7 @@ try {
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <form method="POST">
+                    <?php echo csrf_field(); ?>
                     <input type="hidden" name="action" value="delete_account">
                     <div class="modal-body">
                         <div class="alert alert-danger">

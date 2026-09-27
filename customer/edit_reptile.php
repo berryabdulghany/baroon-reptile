@@ -1,5 +1,6 @@
 <?php
 require_once '../config/database.php';
+require_once '../includes/upload.php';
 
 // Check if user is logged in and is customer
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
@@ -69,35 +70,13 @@ try {
         } else {
             // Handle photo upload if provided
             $photo_path = $reptile['photo'];
-            
-            if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-                $upload_dir = '../uploads/reptiles/';
-                if (!is_dir($upload_dir)) {
-                    mkdir($upload_dir, 0755, true);
-                }
-                
-                $file_info = pathinfo($_FILES['photo']['name']);
-                $extension = strtolower($file_info['extension']);
-                $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif'];
-                
-                if (!in_array($extension, $allowed_extensions)) {
-                    $message = 'error:Format file tidak didukung! Gunakan JPG, PNG, atau GIF.';
-                } elseif ($_FILES['photo']['size'] > MAX_FILE_SIZE) {
-                    $message = 'error:Ukuran file terlalu besar! Maksimal 5MB.';
-                } else {
-                    $new_filename = 'reptile_' . $reptile_id . '_' . time() . '.' . $extension;
-                    $upload_path = $upload_dir . $new_filename;
-                    
-                    if (move_uploaded_file($_FILES['photo']['tmp_name'], $upload_path)) {
-                        // Delete old photo if exists
-                        if ($reptile['photo'] && file_exists('../' . $reptile['photo'])) {
-                            unlink('../' . $reptile['photo']);
-                        }
-                        $photo_path = 'uploads/reptiles/' . $new_filename;
-                    } else {
-                        $message = 'error:Gagal mengupload foto!';
-                    }
-                }
+
+            [$new_photo, $upload_error] = upload_reptile_photo('photo');
+            if ($upload_error) {
+                $message = 'error:' . $upload_error;
+            } elseif ($new_photo) {
+                delete_reptile_photo($reptile['photo']);
+                $photo_path = $new_photo;
             }
             
             if (!$message) {
@@ -450,6 +429,7 @@ try {
                 </div>
                 <div class="form-body">
                     <form method="POST" enctype="multipart/form-data">
+                        <?php echo csrf_field(); ?>
                         <div class="row">
                             <!-- Left Column -->
                             <div class="col-md-8">

@@ -433,6 +433,7 @@ try {
                 <?php endif; ?>
                 
                 <form method="POST" id="bookingForm">
+                    <?php echo csrf_field(); ?>
                     <!-- Reptile Selection -->
                     <div class="form-section">
                         <h5 class="section-title">
@@ -533,7 +534,7 @@ try {
                                 <div class="mb-3">
                                     <label for="start_date" class="form-label">Start Date <span class="required">*</span></label>
                                     <input type="date" class="form-control" id="start_date" name="start_date" 
-                                           value="<?php echo isset($_POST['start_date']) ? $_POST['start_date'] : ''; ?>" 
+                                           value="<?php echo isset($_POST['start_date']) ? htmlspecialchars($_POST['start_date']) : ''; ?>" 
                                            min="<?php echo date('Y-m-d'); ?>" required onchange="calculateCost()">
                                 </div>
                             </div>
@@ -541,7 +542,7 @@ try {
                                 <div class="mb-3">
                                     <label for="end_date" class="form-label">End Date <span class="required">*</span></label>
                                     <input type="date" class="form-control" id="end_date" name="end_date" 
-                                           value="<?php echo isset($_POST['end_date']) ? $_POST['end_date'] : ''; ?>" 
+                                           value="<?php echo isset($_POST['end_date']) ? htmlspecialchars($_POST['end_date']) : ''; ?>" 
                                            min="<?php echo date('Y-m-d', strtotime('+1 day')); ?>" required onchange="calculateCost()">
                                 </div>
                             </div>

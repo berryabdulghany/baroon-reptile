@@ -132,7 +132,7 @@ try {
         }
     }
 } catch (Exception $e) {
-    $error = 'Terjadi kesalahan sistem: ' . $e->getMessage();
+    $error = error_detail($e);
     // Log the error for debugging
     error_log('Booking creation error: ' . $e->getMessage());
 }
@@ -419,6 +419,7 @@ try {
                             </div>
                         <?php else: ?>
                             <form method="POST" id="bookingForm">
+                                <?php echo csrf_field(); ?>
                                 <div class="mb-3">
                                     <label for="reptile_id" class="form-label">
                                         <i class="fas fa-dragon me-2"></i>Pilih Reptile *
@@ -462,7 +463,7 @@ try {
                                             <i class="fas fa-calendar-alt me-2"></i>Tanggal Mulai *
                                         </label>
                                         <input type="date" class="form-control" id="start_date" name="start_date" 
-                                               value="<?php echo isset($_POST['start_date']) ? $_POST['start_date'] : ''; ?>" 
+                                               value="<?php echo isset($_POST['start_date']) ? htmlspecialchars($_POST['start_date']) : ''; ?>" 
                                                min="<?php echo date('Y-m-d'); ?>" required onchange="calculateCost()">
                                     </div>
                                     
@@ -471,7 +472,7 @@ try {
                                             <i class="fas fa-calendar-check me-2"></i>Tanggal Selesai *
                                         </label>
                                         <input type="date" class="form-control" id="end_date" name="end_date" 
-                                               value="<?php echo isset($_POST['end_date']) ? $_POST['end_date'] : ''; ?>" 
+                                               value="<?php echo isset($_POST['end_date']) ? htmlspecialchars($_POST['end_date']) : ''; ?>" 
                                                min="<?php echo date('Y-m-d', strtotime('+1 day')); ?>" required onchange="calculateCost()">
                                         <div id="dateInfo" class="date-info" style="display: none;">
                                             <i class="fas fa-info-circle me-2"></i>

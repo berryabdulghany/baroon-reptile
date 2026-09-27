@@ -1,5 +1,6 @@
 <?php
 require_once '../config/database.php';
+require_once '../includes/upload.php';
 
 // Check if user is logged in and is admin
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
@@ -83,36 +84,13 @@ try {
         // Handle photo upload
         $photo_path = $reptile['photo']; // Keep existing photo by default
         
-        if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-            $upload_dir = '../uploads/reptiles/';
-            $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
-            $max_size = 5 * 1024 * 1024; // 5MB
-            
-            $file_type = $_FILES['photo']['type'];
-            $file_size = $_FILES['photo']['size'];
-            
-            if (!in_array($file_type, $allowed_types)) {
-                $errors[] = 'Only JPEG, PNG, and GIF images are allowed.';
-            }
-            
-            if ($file_size > $max_size) {
-                $errors[] = 'Image size must be less than 5MB.';
-            }
-            
-            if (empty($errors)) {
-                $file_extension = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
-                $new_filename = 'reptile_' . $reptile_id . '_' . time() . '.' . $file_extension;
-                $upload_path = $upload_dir . $new_filename;
-                
-                if (move_uploaded_file($_FILES['photo']['tmp_name'], $upload_path)) {
-                    // Delete old photo if exists
-                    if ($reptile['photo'] && file_exists('../' . $reptile['photo'])) {
-                        unlink('../' . $reptile['photo']);
-                    }
-                    $photo_path = 'uploads/reptiles/' . $new_filename;
-                } else {
-                    $errors[] = 'Failed to upload image.';
-                }
+        if (empty($errors)) {
+            [$new_photo, $upload_error] = upload_reptile_photo('photo');
+            if ($upload_error) {
+                $errors[] = $upload_error;
+            } elseif ($new_photo) {
+                delete_reptile_photo($reptile['photo']);
+                $photo_path = $new_photo;
             }
         }
         
@@ -405,6 +383,7 @@ try {
                 <?php endif; ?>
                 
                 <form method="POST" enctype="multipart/form-data">
+                    <?php echo csrf_field(); ?>
                     <!-- Basic Information -->
                     <div class="form-section">
                         <h5 class="section-title">

@@ -129,7 +129,7 @@ try {
     $unpaid_bookings = $stmt->fetchAll();
     
 } catch (Exception $e) {
-    $message = '<div class="alert alert-danger"><i class="fas fa-times-circle me-2"></i>Error: ' . $e->getMessage() . '</div>';
+    $message = '<div class="alert alert-danger"><i class="fas fa-times-circle me-2"></i>Error: ' . error_detail($e) . '</div>';
 }
 
 $status_labels = [
@@ -494,11 +494,11 @@ $method_labels = [
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">From Date</label>
-                                    <input type="date" name="date_from" class="form-control" value="<?php echo $date_from; ?>">
+                                    <input type="date" name="date_from" class="form-control" value="<?php echo htmlspecialchars($date_from); ?>">
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">To Date</label>
-                                    <input type="date" name="date_to" class="form-control" value="<?php echo $date_to; ?>">
+                                    <input type="date" name="date_to" class="form-control" value="<?php echo htmlspecialchars($date_to); ?>">
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label">&nbsp;</label>
@@ -522,7 +522,7 @@ $method_labels = [
                                                     <div class="col-md-4">
                                                         <div class="reptile-info">
                                                             <?php if ($payment['photo']): ?>
-                                                                <img src="../uploads/reptiles/<?php echo htmlspecialchars($payment['photo'] ?? ''); ?>" 
+                                                                <img src="../<?php echo htmlspecialchars($payment['photo'] ?? ''); ?>" 
                                                                      class="reptile-photo" alt="Reptile">
                                                             <?php else: ?>
                                                                 <div class="reptile-photo bg-secondary d-flex align-items-center justify-content-center">
@@ -591,7 +591,7 @@ $method_labels = [
                                     <div class="col-md-4">
                                         <div class="reptile-info">
                                             <?php if ($booking['photo']): ?>
-                                                <img src="../uploads/reptiles/<?php echo htmlspecialchars($booking['photo'] ?? ''); ?>" 
+                                                <img src="../<?php echo htmlspecialchars($booking['photo'] ?? ''); ?>" 
                                                      class="reptile-photo" alt="Reptile">
                                             <?php else: ?>
                                                 <div class="reptile-photo bg-secondary d-flex align-items-center justify-content-center">
@@ -628,6 +628,7 @@ $method_labels = [
         <div class="modal-dialog">
             <div class="modal-content">
                 <form method="POST">
+                    <?php echo csrf_field(); ?>
                     <div class="modal-header">
                         <h5 class="modal-title"><i class="fas fa-credit-card me-2"></i>Create Payment</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>

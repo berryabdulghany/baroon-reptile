@@ -67,7 +67,7 @@ try {
     }
     
 } catch (Exception $e) {
-    $message = '<div class="alert alert-danger"><i class="fas fa-times-circle me-2"></i>Error: ' . $e->getMessage() . '</div>';
+    $message = '<div class="alert alert-danger"><i class="fas fa-times-circle me-2"></i>Error: ' . error_detail($e) . '</div>';
 }
 ?>
 
@@ -345,6 +345,7 @@ try {
                             <?php if (!$existing_payment): ?>
                                 <!-- Payment Form -->
                                 <form method="POST">
+                                    <?php echo csrf_field(); ?>
                                     <input type="hidden" name="action" value="create_payment">
                                     
                                     <h6 class="mb-3">Select Payment Method</h6>

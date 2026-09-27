@@ -283,6 +283,7 @@ if ($_POST) {
                         <?php endif; ?>
                         
                         <form method="POST" id="registerForm">
+                            <?php echo csrf_field(); ?>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="username" class="form-label">

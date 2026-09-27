@@ -170,6 +170,7 @@ $method_labels = [
                         
                         <!-- Edit Form -->
                         <form method="POST">
+                            <?php echo csrf_field(); ?>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">

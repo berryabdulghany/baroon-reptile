@@ -511,6 +511,7 @@ try {
                         </div>
                         <div class="settings-body">
                             <form method="POST">
+                                <?php echo csrf_field(); ?>
                                 <input type="hidden" name="action" value="update_profile">
                                 
                                 <div class="row">
@@ -574,6 +575,7 @@ try {
                         </div>
                         <div class="settings-body">
                             <form method="POST" id="passwordForm">
+                                <?php echo csrf_field(); ?>
                                 <input type="hidden" name="action" value="change_password">
                                 
                                 <div class="mb-3">
@@ -627,6 +629,7 @@ try {
                         </div>
                         <div class="settings-body">
                             <form method="POST">
+                                <?php echo csrf_field(); ?>
                                 <input type="hidden" name="action" value="update_system_settings">
                                 
                                 <h6 class="mb-3">Informasi Situs</h6>

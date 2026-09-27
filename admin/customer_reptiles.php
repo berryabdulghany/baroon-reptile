@@ -109,7 +109,7 @@ try {
     $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
 } catch (Exception $e) {
-    $message = '<div class="alert alert-danger"><i class="fas fa-times-circle me-2"></i>Error: ' . $e->getMessage() . '</div>';
+    $message = '<div class="alert alert-danger"><i class="fas fa-times-circle me-2"></i>Error: ' . error_detail($e) . '</div>';
     // Initialize stats with default values if there's an error
     $stats = [
         'total_reptiles' => 0,
@@ -505,7 +505,7 @@ try {
                                     <div class="row text-center mb-3">
                                         <div class="col-4">
                                             <small class="text-muted">Umur</small><br>
-                                            <strong><?php echo $reptile['age'] ? $reptile['age'] : 'Tidak diketahui'; ?></strong>
+                                            <strong><?php echo $reptile['age'] ? htmlspecialchars($reptile['age']) : 'Tidak diketahui'; ?></strong>
                                         </div>
                                         <div class="col-4">
                                             <small class="text-muted">Jenis Kelamin</small><br>
@@ -564,7 +564,7 @@ try {
                         <ul class="pagination">
                             <?php if ($page > 1): ?>
                                 <li class="page-item">
-                                    <a class="page-link" href="?customer_id=<?php echo $customer_id; ?>&page=<?php echo $page-1; ?>&status=<?php echo $status_filter; ?>&category=<?php echo $category_filter; ?>&search=<?php echo urlencode($search); ?>">
+                                    <a class="page-link" href="?customer_id=<?php echo $customer_id; ?>&page=<?php echo $page-1; ?>&status=<?php echo urlencode($status_filter); ?>&category=<?php echo urlencode($category_filter); ?>&search=<?php echo urlencode($search); ?>">
                                         <i class="fas fa-chevron-left"></i>
                                     </a>
                                 </li>
@@ -572,7 +572,7 @@ try {
                             
                             <?php for ($i = max(1, $page-2); $i <= min($total_pages, $page+2); $i++): ?>
                                 <li class="page-item <?php echo $i === $page ? 'active' : ''; ?>">
-                                    <a class="page-link" href="?customer_id=<?php echo $customer_id; ?>&page=<?php echo $i; ?>&status=<?php echo $status_filter; ?>&category=<?php echo $category_filter; ?>&search=<?php echo urlencode($search); ?>">
+                                    <a class="page-link" href="?customer_id=<?php echo $customer_id; ?>&page=<?php echo $i; ?>&status=<?php echo urlencode($status_filter); ?>&category=<?php echo urlencode($category_filter); ?>&search=<?php echo urlencode($search); ?>">
                                         <?php echo $i; ?>
                                     </a>
                                 </li>
@@ -580,7 +580,7 @@ try {
                             
                             <?php if ($page < $total_pages): ?>
                                 <li class="page-item">
-                                    <a class="page-link" href="?customer_id=<?php echo $customer_id; ?>&page=<?php echo $page+1; ?>&status=<?php echo $status_filter; ?>&category=<?php echo $category_filter; ?>&search=<?php echo urlencode($search); ?>">
+                                    <a class="page-link" href="?customer_id=<?php echo $customer_id; ?>&page=<?php echo $page+1; ?>&status=<?php echo urlencode($status_filter); ?>&category=<?php echo urlencode($category_filter); ?>&search=<?php echo urlencode($search); ?>">
                                         <i class="fas fa-chevron-right"></i>
                                     </a>
                                 </li>

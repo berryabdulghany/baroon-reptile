@@ -1,5 +1,6 @@
 <?php
 require_once '../config/database.php';
+require_once '../includes/upload.php';
 
 // Check if user is logged in and is customer
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
@@ -13,8 +14,8 @@ try {
     $db = getDB();
     
     // Handle delete action
-    if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])) {
-        $reptile_id = $_GET['id'];
+    if (isset($_POST['action']) && $_POST['action'] === 'delete' && isset($_POST['id'])) {
+        $reptile_id = (int)$_POST['id'];
         
         // Check if reptile belongs to current user
         $stmt = $db->prepare("SELECT * FROM reptiles WHERE id = ? AND customer_id = ?");
@@ -30,10 +31,7 @@ try {
             if ($active_bookings > 0) {
                 $message = 'error:Tidak dapat menghapus reptile yang memiliki booking aktif!';
             } else {
-                // Delete photo if exists
-                if ($reptile['photo'] && file_exists('../' . $reptile['photo'])) {
-                    unlink('../' . $reptile['photo']);
-                }
+                delete_reptile_photo($reptile['photo']);
                 
                 // Delete reptile
                 $stmt = $db->prepare("DELETE FROM reptiles WHERE id = ? AND customer_id = ?");
@@ -528,7 +526,12 @@ try {
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <a href="#" id="deleteLink" class="btn btn-danger">Hapus</a>
+                    <form method="POST" class="d-inline">
+                        <?php echo csrf_field(); ?>
+                        <input type="hidden" name="action" value="delete">
+                        <input type="hidden" name="id" id="deleteReptileId">
+                        <button type="submit" class="btn btn-danger">Hapus</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -575,7 +578,7 @@ try {
         // Delete confirmation
         function confirmDelete(id, name) {
             document.getElementById('reptileName').textContent = name;
-            document.getElementById('deleteLink').href = '?action=delete&id=' + id;
+            document.getElementById('deleteReptileId').value = id;
             new bootstrap.Modal(document.getElementById('deleteModal')).show();
         }
         

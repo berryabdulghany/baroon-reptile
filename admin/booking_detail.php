@@ -67,7 +67,7 @@ try {
     }
     
 } catch (Exception $e) {
-    $message = '<div class="alert alert-danger"><i class="fas fa-times-circle me-2"></i>Error: ' . $e->getMessage() . '</div>';
+    $message = '<div class="alert alert-danger"><i class="fas fa-times-circle me-2"></i>Error: ' . error_detail($e) . '</div>';
 }
 ?>
 
@@ -491,7 +491,7 @@ try {
                             <div class="row text-start">
                                 <div class="col-6">
                                     <small class="text-muted">Age:</small><br>
-                                    <strong><?php echo $booking['age'] ? $booking['age'] : 'Unknown'; ?></strong>
+                                    <strong><?php echo $booking['age'] ? htmlspecialchars($booking['age']) : 'Unknown'; ?></strong>
                                 </div>
                                 <div class="col-6">
                                     <small class="text-muted">Gender:</small><br>
@@ -515,6 +515,7 @@ try {
                         </div>
                         <div class="detail-body">
                             <form method="POST">
+                                <?php echo csrf_field(); ?>
                                 <input type="hidden" name="action" value="update_status">
                                 <div class="mb-3">
                                     <label for="status" class="form-label">Booking Status</label>

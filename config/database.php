@@ -11,11 +11,17 @@ function env($key, $default = null) {
 }
 
 define('APP_DEBUG', filter_var(env('APP_DEBUG', 'true'), FILTER_VALIDATE_BOOLEAN));
-define('UPLOAD_PATH', 'assets/uploads/');
 define('MAX_FILE_SIZE', 5 * 1024 * 1024); // 5MB
 
 ini_set('display_errors', APP_DEBUG ? '1' : '0');
 error_reporting(E_ALL);
+
+// Pesan exception untuk ditampilkan ke pengguna: detail lengkap hanya saat
+// APP_DEBUG, selebihnya cukup dicatat di log server.
+function error_detail(Throwable $e) {
+    error_log($e->getMessage());
+    return APP_DEBUG ? htmlspecialchars($e->getMessage()) : 'Terjadi kesalahan pada sistem.';
+}
 
 class Database {
     private $conn;
@@ -54,5 +60,13 @@ function getDB() {
 
 // Pengaturan session
 if (session_status() == PHP_SESSION_NONE) {
+    session_set_cookie_params([
+        'httponly' => true,
+        'samesite' => 'Lax',
+        'secure' => (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'),
+    ]);
     session_start();
 }
+
+require_once __DIR__ . '/../includes/security.php';
+verify_csrf();

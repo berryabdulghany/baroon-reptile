@@ -1,5 +1,6 @@
 <?php
 require_once '../config/database.php';
+require_once '../includes/upload.php';
 
 // Check if user is logged in and is admin
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
@@ -45,10 +46,7 @@ try {
             // Delete reptile
             $stmt = $db->prepare("DELETE FROM reptiles WHERE id = ?");
             if ($stmt->execute([$reptile_id])) {
-                // Delete photo file if exists
-                if ($photo && file_exists('../' . $photo)) {
-                    unlink('../' . $photo);
-                }
+                delete_reptile_photo($photo);
                 $message = 'success:Reptile berhasil dihapus!';
             } else {
                 $message = 'error:Gagal menghapus reptile!';
@@ -593,12 +591,12 @@ try {
                     <div class="col-md-8">
                         <div class="d-flex align-items-center gap-3 flex-wrap">
                             <div class="btn-group" role="group">
-                                <a href="?status=all&category=<?php echo $category_filter; ?>&sort=<?php echo $sort_by; ?>" class="btn <?php echo $status_filter === 'all' ? 'btn-primary' : 'btn-outline-secondary'; ?>">Semua</a>
-                                <a href="?status=active&category=<?php echo $category_filter; ?>&sort=<?php echo $sort_by; ?>" class="btn <?php echo $status_filter === 'active' ? 'btn-success' : 'btn-outline-success'; ?>">Active</a>
-                                <a href="?status=inactive&category=<?php echo $category_filter; ?>&sort=<?php echo $sort_by; ?>" class="btn <?php echo $status_filter === 'inactive' ? 'btn-danger' : 'btn-outline-danger'; ?>">Inactive</a>
+                                <a href="?status=all&category=<?php echo urlencode($category_filter); ?>&sort=<?php echo urlencode($sort_by); ?>" class="btn <?php echo $status_filter === 'all' ? 'btn-primary' : 'btn-outline-secondary'; ?>">Semua</a>
+                                <a href="?status=active&category=<?php echo urlencode($category_filter); ?>&sort=<?php echo urlencode($sort_by); ?>" class="btn <?php echo $status_filter === 'active' ? 'btn-success' : 'btn-outline-success'; ?>">Active</a>
+                                <a href="?status=inactive&category=<?php echo urlencode($category_filter); ?>&sort=<?php echo urlencode($sort_by); ?>" class="btn <?php echo $status_filter === 'inactive' ? 'btn-danger' : 'btn-outline-danger'; ?>">Inactive</a>
                             </div>
                             
-                            <select class="form-select" style="width: auto;" onchange="window.location.href='?status=<?php echo $status_filter; ?>&category=' + this.value + '&sort=<?php echo $sort_by; ?>'">
+                            <select class="form-select" style="width: auto;" onchange="window.location.href='?status=<?php echo urlencode($status_filter); ?>&category=' + this.value + '&sort=<?php echo urlencode($sort_by); ?>'">
                                 <option value="all" <?php echo $category_filter === 'all' ? 'selected' : ''; ?>>Semua Kategori</option>
                                 <?php foreach ($categories as $category): ?>
                                     <option value="<?php echo $category['id']; ?>" <?php echo $category_filter == $category['id'] ? 'selected' : ''; ?>>
@@ -612,12 +610,12 @@ try {
                                     <i class="fas fa-sort me-2"></i>Sort
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item <?php echo $sort_by === 'newest' ? 'active' : ''; ?>" href="?status=<?php echo $status_filter; ?>&category=<?php echo $category_filter; ?>&sort=newest">Terbaru</a></li>
-                                    <li><a class="dropdown-item <?php echo $sort_by === 'oldest' ? 'active' : ''; ?>" href="?status=<?php echo $status_filter; ?>&category=<?php echo $category_filter; ?>&sort=oldest">Terlama</a></li>
-                                    <li><a class="dropdown-item <?php echo $sort_by === 'name_asc' ? 'active' : ''; ?>" href="?status=<?php echo $status_filter; ?>&category=<?php echo $category_filter; ?>&sort=name_asc">Nama A-Z</a></li>
-                                    <li><a class="dropdown-item <?php echo $sort_by === 'name_desc' ? 'active' : ''; ?>" href="?status=<?php echo $status_filter; ?>&category=<?php echo $category_filter; ?>&sort=name_desc">Nama Z-A</a></li>
-                                    <li><a class="dropdown-item <?php echo $sort_by === 'category' ? 'active' : ''; ?>" href="?status=<?php echo $status_filter; ?>&category=<?php echo $category_filter; ?>&sort=category">Kategori</a></li>
-                                    <li><a class="dropdown-item <?php echo $sort_by === 'most_bookings' ? 'active' : ''; ?>" href="?status=<?php echo $status_filter; ?>&category=<?php echo $category_filter; ?>&sort=most_bookings">Paling Populer</a></li>
+                                    <li><a class="dropdown-item <?php echo $sort_by === 'newest' ? 'active' : ''; ?>" href="?status=<?php echo urlencode($status_filter); ?>&category=<?php echo urlencode($category_filter); ?>&sort=newest">Terbaru</a></li>
+                                    <li><a class="dropdown-item <?php echo $sort_by === 'oldest' ? 'active' : ''; ?>" href="?status=<?php echo urlencode($status_filter); ?>&category=<?php echo urlencode($category_filter); ?>&sort=oldest">Terlama</a></li>
+                                    <li><a class="dropdown-item <?php echo $sort_by === 'name_asc' ? 'active' : ''; ?>" href="?status=<?php echo urlencode($status_filter); ?>&category=<?php echo urlencode($category_filter); ?>&sort=name_asc">Nama A-Z</a></li>
+                                    <li><a class="dropdown-item <?php echo $sort_by === 'name_desc' ? 'active' : ''; ?>" href="?status=<?php echo urlencode($status_filter); ?>&category=<?php echo urlencode($category_filter); ?>&sort=name_desc">Nama Z-A</a></li>
+                                    <li><a class="dropdown-item <?php echo $sort_by === 'category' ? 'active' : ''; ?>" href="?status=<?php echo urlencode($status_filter); ?>&category=<?php echo urlencode($category_filter); ?>&sort=category">Kategori</a></li>
+                                    <li><a class="dropdown-item <?php echo $sort_by === 'most_bookings' ? 'active' : ''; ?>" href="?status=<?php echo urlencode($status_filter); ?>&category=<?php echo urlencode($category_filter); ?>&sort=most_bookings">Paling Populer</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -679,7 +677,7 @@ try {
                                 <div class="reptile-stats">
                                     <div class="stat-item">
                                         <div class="stat-item-label">Umur</div>
-                                        <div class="stat-item-value"><?php echo $reptile['age']; ?></div>
+                                        <div class="stat-item-value"><?php echo htmlspecialchars($reptile['age'] ?? ''); ?></div>
                                     </div>
                                     <div class="stat-item">
                                         <div class="stat-item-label">Berat</div>
@@ -749,6 +747,7 @@ try {
                                         </a>
                                         
                                         <form method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin mengubah status reptile ini?')">
+                                            <?php echo csrf_field(); ?>
                                             <input type="hidden" name="action" value="toggle_status">
                                             <input type="hidden" name="reptile_id" value="<?php echo $reptile['id']; ?>">
                                             <input type="hidden" name="status" value="<?php echo $reptile['status']; ?>">
@@ -801,6 +800,7 @@ try {
                 const form = document.createElement('form');
                 form.method = 'POST';
                 form.innerHTML = `
+                    <?php echo csrf_field(); ?>
                     <input type="hidden" name="action" value="delete_reptile">
                     <input type="hidden" name="reptile_id" value="${reptileId}">
                 `;

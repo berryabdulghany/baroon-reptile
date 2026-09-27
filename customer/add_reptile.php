@@ -1,5 +1,6 @@
 <?php
 require_once '../config/database.php';
+require_once '../includes/upload.php';
 
 // Check if user is logged in and is customer
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
@@ -22,44 +23,18 @@ try {
         $category_id = $_POST['category_id'];
         $species = trim($_POST['species']);
         $age = trim($_POST['age']);
-        $weight = $_POST['weight'];
-        $length = $_POST['length'];
-        $gender = $_POST['gender'];
+        // Kolom angka dan enum yang dikosongkan disimpan sebagai NULL
+        $weight = $_POST['weight'] !== '' ? $_POST['weight'] : null;
+        $length = $_POST['length'] !== '' ? $_POST['length'] : null;
+        $gender = $_POST['gender'] !== '' ? $_POST['gender'] : null;
         $special_needs = trim($_POST['special_needs']);
-        
+
         // Validasi input
         if (empty($name) || empty($category_id)) {
             $error = 'Nama reptile dan kategori harus diisi!';
         } else {
-            // Handle file upload
-            $photo_path = '';
-            if (isset($_FILES['photo']) && $_FILES['photo']['error'] == 0) {
-                $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
-                $file_type = $_FILES['photo']['type'];
-                $file_size = $_FILES['photo']['size'];
-                
-                if (!in_array($file_type, $allowed_types)) {
-                    $error = 'Format file harus JPG, PNG, atau GIF!';
-                } elseif ($file_size > MAX_FILE_SIZE) {
-                    $error = 'Ukuran file maksimal 5MB!';
-                } else {
-                    $upload_dir = '../' . UPLOAD_PATH . 'reptiles/';
-                    if (!is_dir($upload_dir)) {
-                        mkdir($upload_dir, 0777, true);
-                    }
-                    
-                    $file_extension = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
-                    $new_filename = 'reptile_' . time() . '_' . rand(1000, 9999) . '.' . $file_extension;
-                    $upload_path = $upload_dir . $new_filename;
-                    
-                    if (move_uploaded_file($_FILES['photo']['tmp_name'], $upload_path)) {
-                        $photo_path = UPLOAD_PATH . 'reptiles/' . $new_filename;
-                    } else {
-                        $error = 'Gagal mengupload foto!';
-                    }
-                }
-            }
-            
+            [$photo_path, $error] = upload_reptile_photo('photo');
+
             if (empty($error)) {
                 // Insert reptile
                 $stmt = $db->prepare("
@@ -336,6 +311,7 @@ try {
                         <?php endif; ?>
                         
                         <form method="POST" enctype="multipart/form-data">
+                            <?php echo csrf_field(); ?>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="name" class="form-label">
@@ -396,7 +372,7 @@ try {
                                         <i class="fas fa-weight me-2"></i>Berat (kg)
                                     </label>
                                     <input type="number" step="0.01" class="form-control" id="weight" name="weight" 
-                                           value="<?php echo isset($_POST['weight']) ? $_POST['weight'] : ''; ?>" 
+                                           value="<?php echo isset($_POST['weight']) ? htmlspecialchars($_POST['weight']) : ''; ?>" 
                                            placeholder="0.00">
                                 </div>
                                 
@@ -405,7 +381,7 @@ try {
                                         <i class="fas fa-ruler me-2"></i>Panjang (cm)
                                     </label>
                                     <input type="number" step="0.01" class="form-control" id="length" name="length" 
-                                           value="<?php echo isset($_POST['length']) ? $_POST['length'] : ''; ?>" 
+                                           value="<?php echo isset($_POST['length']) ? htmlspecialchars($_POST['length']) : ''; ?>" 
                                            placeholder="0.00">
                                 </div>
                                 

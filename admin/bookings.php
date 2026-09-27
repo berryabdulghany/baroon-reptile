@@ -101,7 +101,7 @@ try {
 } catch (Exception $e) {
     // Log the actual error for debugging (in production, log to file instead)
     error_log("Booking page error: " . $e->getMessage());
-    $message = 'error:Terjadi kesalahan sistem: ' . $e->getMessage();
+    $message = 'error:' . error_detail($e);
     
     // Initialize $stats with default values to prevent undefined variable errors
     $stats = [
@@ -524,18 +524,18 @@ $status_config = [
                     <div class="col-md-8">
                         <div class="d-flex align-items-center gap-3 flex-wrap">
                             <div class="btn-group" role="group">
-                                <a href="?status=all&date=<?php echo $date_filter; ?>" class="btn <?php echo $status_filter === 'all' ? 'btn-primary' : 'btn-outline-secondary'; ?>">Semua</a>
-                                <a href="?status=pending&date=<?php echo $date_filter; ?>" class="btn <?php echo $status_filter === 'pending' ? 'btn-warning' : 'btn-outline-warning'; ?>">Pending</a>
-                                <a href="?status=confirmed&date=<?php echo $date_filter; ?>" class="btn <?php echo $status_filter === 'confirmed' ? 'btn-info' : 'btn-outline-info'; ?>">Confirmed</a>
-                                <a href="?status=in_progress&date=<?php echo $date_filter; ?>" class="btn <?php echo $status_filter === 'in_progress' ? 'btn-primary' : 'btn-outline-primary'; ?>">Active</a>
-                                <a href="?status=completed&date=<?php echo $date_filter; ?>" class="btn <?php echo $status_filter === 'completed' ? 'btn-success' : 'btn-outline-success'; ?>">Completed</a>
+                                <a href="?status=all&date=<?php echo urlencode($date_filter); ?>" class="btn <?php echo $status_filter === 'all' ? 'btn-primary' : 'btn-outline-secondary'; ?>">Semua</a>
+                                <a href="?status=pending&date=<?php echo urlencode($date_filter); ?>" class="btn <?php echo $status_filter === 'pending' ? 'btn-warning' : 'btn-outline-warning'; ?>">Pending</a>
+                                <a href="?status=confirmed&date=<?php echo urlencode($date_filter); ?>" class="btn <?php echo $status_filter === 'confirmed' ? 'btn-info' : 'btn-outline-info'; ?>">Confirmed</a>
+                                <a href="?status=in_progress&date=<?php echo urlencode($date_filter); ?>" class="btn <?php echo $status_filter === 'in_progress' ? 'btn-primary' : 'btn-outline-primary'; ?>">Active</a>
+                                <a href="?status=completed&date=<?php echo urlencode($date_filter); ?>" class="btn <?php echo $status_filter === 'completed' ? 'btn-success' : 'btn-outline-success'; ?>">Completed</a>
                             </div>
                             
                             <div class="btn-group" role="group">
-                                <a href="?status=<?php echo $status_filter; ?>&date=all" class="btn <?php echo $date_filter === 'all' ? 'btn-secondary' : 'btn-outline-secondary'; ?>">Semua Tanggal</a>
-                                <a href="?status=<?php echo $status_filter; ?>&date=today" class="btn <?php echo $date_filter === 'today' ? 'btn-secondary' : 'btn-outline-secondary'; ?>">Hari Ini</a>
-                                <a href="?status=<?php echo $status_filter; ?>&date=this_week" class="btn <?php echo $date_filter === 'this_week' ? 'btn-secondary' : 'btn-outline-secondary'; ?>">Minggu Ini</a>
-                                <a href="?status=<?php echo $status_filter; ?>&date=this_month" class="btn <?php echo $date_filter === 'this_month' ? 'btn-secondary' : 'btn-outline-secondary'; ?>">Bulan Ini</a>
+                                <a href="?status=<?php echo urlencode($status_filter); ?>&date=all" class="btn <?php echo $date_filter === 'all' ? 'btn-secondary' : 'btn-outline-secondary'; ?>">Semua Tanggal</a>
+                                <a href="?status=<?php echo urlencode($status_filter); ?>&date=today" class="btn <?php echo $date_filter === 'today' ? 'btn-secondary' : 'btn-outline-secondary'; ?>">Hari Ini</a>
+                                <a href="?status=<?php echo urlencode($status_filter); ?>&date=this_week" class="btn <?php echo $date_filter === 'this_week' ? 'btn-secondary' : 'btn-outline-secondary'; ?>">Minggu Ini</a>
+                                <a href="?status=<?php echo urlencode($status_filter); ?>&date=this_month" class="btn <?php echo $date_filter === 'this_month' ? 'btn-secondary' : 'btn-outline-secondary'; ?>">Bulan Ini</a>
                             </div>
                         </div>
                     </div>
@@ -616,6 +616,7 @@ $status_config = [
                                     <div class="col-md-4 text-md-end">
                                         <div class="d-flex align-items-center justify-content-md-end gap-3">
                                             <form method="POST" class="d-inline">
+                                                <?php echo csrf_field(); ?>
                                                 <input type="hidden" name="action" value="update_status">
                                                 <input type="hidden" name="booking_id" value="<?php echo $booking['id']; ?>">
                                                 <select name="status" class="status-select bg-<?php echo $status['class']; ?> text-white rounded px-2 py-1" onchange="this.form.submit()">

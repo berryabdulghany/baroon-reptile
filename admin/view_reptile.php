@@ -460,7 +460,7 @@ try {
                         
                         <div class="row mb-3">
                             <div class="col-sm-4"><strong>Age:</strong></div>
-                            <div class="col-sm-8"><?php echo $reptile['age'] ?? 'Not specified'; ?></div>
+                            <div class="col-sm-8"><?php echo htmlspecialchars($reptile['age'] ?? 'Not specified'); ?></div>
                         </div>
                         
                         <div class="row mb-3">

@@ -580,13 +580,13 @@ $method_labels = [
                     <div class="col-md-8">
                         <div class="d-flex align-items-center gap-3 flex-wrap">
                             <div class="btn-group" role="group">
-                                <a href="?status=all&method=<?php echo $method_filter; ?>&date=<?php echo $date_filter; ?>" class="btn <?php echo $status_filter === 'all' ? 'btn-primary' : 'btn-outline-secondary'; ?>">Semua</a>
-                                <a href="?status=pending&method=<?php echo $method_filter; ?>&date=<?php echo $date_filter; ?>" class="btn <?php echo $status_filter === 'pending' ? 'btn-warning' : 'btn-outline-warning'; ?>">Pending</a>
-                                <a href="?status=paid&method=<?php echo $method_filter; ?>&date=<?php echo $date_filter; ?>" class="btn <?php echo $status_filter === 'paid' ? 'btn-success' : 'btn-outline-success'; ?>">Paid</a>
-                                <a href="?status=failed&method=<?php echo $method_filter; ?>&date=<?php echo $date_filter; ?>" class="btn <?php echo $status_filter === 'failed' ? 'btn-danger' : 'btn-outline-danger'; ?>">Failed</a>
+                                <a href="?status=all&method=<?php echo urlencode($method_filter); ?>&date=<?php echo urlencode($date_filter); ?>" class="btn <?php echo $status_filter === 'all' ? 'btn-primary' : 'btn-outline-secondary'; ?>">Semua</a>
+                                <a href="?status=pending&method=<?php echo urlencode($method_filter); ?>&date=<?php echo urlencode($date_filter); ?>" class="btn <?php echo $status_filter === 'pending' ? 'btn-warning' : 'btn-outline-warning'; ?>">Pending</a>
+                                <a href="?status=paid&method=<?php echo urlencode($method_filter); ?>&date=<?php echo urlencode($date_filter); ?>" class="btn <?php echo $status_filter === 'paid' ? 'btn-success' : 'btn-outline-success'; ?>">Paid</a>
+                                <a href="?status=failed&method=<?php echo urlencode($method_filter); ?>&date=<?php echo urlencode($date_filter); ?>" class="btn <?php echo $status_filter === 'failed' ? 'btn-danger' : 'btn-outline-danger'; ?>">Failed</a>
                             </div>
                             
-                            <select class="form-select" style="width: auto;" onchange="window.location.href='?status=<?php echo $status_filter; ?>&method=' + this.value + '&date=<?php echo $date_filter; ?>'">
+                            <select class="form-select" style="width: auto;" onchange="window.location.href='?status=<?php echo urlencode($status_filter); ?>&method=' + this.value + '&date=<?php echo urlencode($date_filter); ?>'">
                                 <option value="all" <?php echo $method_filter === 'all' ? 'selected' : ''; ?>>Semua Metode</option>
                                 <?php foreach ($payment_methods as $method): ?>
                                     <option value="<?php echo $method; ?>" <?php echo $method_filter === $method ? 'selected' : ''; ?>>
@@ -596,10 +596,10 @@ $method_labels = [
                             </select>
                             
                             <div class="btn-group" role="group">
-                                <a href="?status=<?php echo $status_filter; ?>&method=<?php echo $method_filter; ?>&date=all" class="btn <?php echo $date_filter === 'all' ? 'btn-secondary' : 'btn-outline-secondary'; ?>">Semua</a>
-                                <a href="?status=<?php echo $status_filter; ?>&method=<?php echo $method_filter; ?>&date=today" class="btn <?php echo $date_filter === 'today' ? 'btn-secondary' : 'btn-outline-secondary'; ?>">Hari Ini</a>
-                                <a href="?status=<?php echo $status_filter; ?>&method=<?php echo $method_filter; ?>&date=this_week" class="btn <?php echo $date_filter === 'this_week' ? 'btn-secondary' : 'btn-outline-secondary'; ?>">Minggu Ini</a>
-                                <a href="?status=<?php echo $status_filter; ?>&method=<?php echo $method_filter; ?>&date=this_month" class="btn <?php echo $date_filter === 'this_month' ? 'btn-secondary' : 'btn-outline-secondary'; ?>">Bulan Ini</a>
+                                <a href="?status=<?php echo urlencode($status_filter); ?>&method=<?php echo urlencode($method_filter); ?>&date=all" class="btn <?php echo $date_filter === 'all' ? 'btn-secondary' : 'btn-outline-secondary'; ?>">Semua</a>
+                                <a href="?status=<?php echo urlencode($status_filter); ?>&method=<?php echo urlencode($method_filter); ?>&date=today" class="btn <?php echo $date_filter === 'today' ? 'btn-secondary' : 'btn-outline-secondary'; ?>">Hari Ini</a>
+                                <a href="?status=<?php echo urlencode($status_filter); ?>&method=<?php echo urlencode($method_filter); ?>&date=this_week" class="btn <?php echo $date_filter === 'this_week' ? 'btn-secondary' : 'btn-outline-secondary'; ?>">Minggu Ini</a>
+                                <a href="?status=<?php echo urlencode($status_filter); ?>&method=<?php echo urlencode($method_filter); ?>&date=this_month" class="btn <?php echo $date_filter === 'this_month' ? 'btn-secondary' : 'btn-outline-secondary'; ?>">Bulan Ini</a>
                             </div>
                         </div>
                     </div>
@@ -645,6 +645,7 @@ $method_labels = [
                                     <div class="col-md-4 text-md-end">
                                         <div class="d-flex align-items-center justify-content-md-end gap-3">
                                             <form method="POST" class="d-inline">
+                                                <?php echo csrf_field(); ?>
                                                 <input type="hidden" name="action" value="update_payment_status">
                                                 <input type="hidden" name="payment_id" value="<?php echo $payment['id']; ?>">
                                                 <select name="status" class="status-select bg-<?php echo $status['class']; ?> text-white rounded px-2 py-1" onchange="this.form.submit()">
@@ -741,6 +742,7 @@ $method_labels = [
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <form method="POST">
+                    <?php echo csrf_field(); ?>
                     <div class="modal-body">
                         <input type="hidden" name="action" value="create_payment">
                         
@@ -821,6 +823,7 @@ $method_labels = [
                 const form = document.createElement('form');
                 form.method = 'POST';
                 form.innerHTML = `
+                    <?php echo csrf_field(); ?>
                     <input type="hidden" name="action" value="update_payment_status">
                     <input type="hidden" name="payment_id" value="${paymentId}">
                     <input type="hidden" name="status" value="refunded">

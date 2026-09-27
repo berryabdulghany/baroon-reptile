@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once '../config/database.php';
 
 $error = '';
@@ -19,6 +18,8 @@ if ($_POST) {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
             
             if ($user && password_verify($password, $user['password'])) {
+                // Ganti ID session setelah login untuk mencegah session fixation
+                session_regenerate_id(true);
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['full_name'] = $user['full_name'];
@@ -245,6 +246,7 @@ if ($_POST) {
                         <?php endif; ?>
                         
                         <form method="POST">
+                            <?php echo csrf_field(); ?>
                             <div class="mb-3">
                                 <label for="username" class="form-label">
                                     <i class="fas fa-user me-2"></i>Username atau Email

@@ -599,7 +599,7 @@ $month_names = [
                             </a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><h6 class="dropdown-header"><i class="fas fa-filter me-2"></i>Current Filter</h6></li>
-                            <li><a class="dropdown-item" href="export_reports.php?date=<?php echo $date_filter; ?>" target="_blank">
+                            <li><a class="dropdown-item" href="export_reports.php?date=<?php echo urlencode($date_filter); ?>" target="_blank">
                                 <i class="fas fa-download me-2"></i>Export Current View
                             </a></li>
                             <li><hr class="dropdown-divider"></li>
@@ -625,14 +625,14 @@ $month_names = [
                     <div class="col-md-8">
                         <div class="d-flex align-items-center gap-3 flex-wrap">
                             <div class="btn-group" role="group">
-                                <a href="?date=today&sort=<?php echo $sort_filter; ?>" class="btn <?php echo $date_filter === 'today' ? 'btn-primary' : 'btn-outline-primary'; ?>">Hari Ini</a>
-                                <a href="?date=this_week&sort=<?php echo $sort_filter; ?>" class="btn <?php echo $date_filter === 'this_week' ? 'btn-primary' : 'btn-outline-primary'; ?>">Minggu Ini</a>
-                                <a href="?date=this_month&sort=<?php echo $sort_filter; ?>" class="btn <?php echo $date_filter === 'this_month' ? 'btn-primary' : 'btn-outline-primary'; ?>">Bulan Ini</a>
-                                <a href="?date=last_month&sort=<?php echo $sort_filter; ?>" class="btn <?php echo $date_filter === 'last_month' ? 'btn-primary' : 'btn-outline-primary'; ?>">Bulan Lalu</a>
-                                <a href="?date=all&sort=<?php echo $sort_filter; ?>" class="btn <?php echo $date_filter === 'all' ? 'btn-primary' : 'btn-outline-primary'; ?>">Semua</a>
+                                <a href="?date=today&sort=<?php echo urlencode($sort_filter); ?>" class="btn <?php echo $date_filter === 'today' ? 'btn-primary' : 'btn-outline-primary'; ?>">Hari Ini</a>
+                                <a href="?date=this_week&sort=<?php echo urlencode($sort_filter); ?>" class="btn <?php echo $date_filter === 'this_week' ? 'btn-primary' : 'btn-outline-primary'; ?>">Minggu Ini</a>
+                                <a href="?date=this_month&sort=<?php echo urlencode($sort_filter); ?>" class="btn <?php echo $date_filter === 'this_month' ? 'btn-primary' : 'btn-outline-primary'; ?>">Bulan Ini</a>
+                                <a href="?date=last_month&sort=<?php echo urlencode($sort_filter); ?>" class="btn <?php echo $date_filter === 'last_month' ? 'btn-primary' : 'btn-outline-primary'; ?>">Bulan Lalu</a>
+                                <a href="?date=all&sort=<?php echo urlencode($sort_filter); ?>" class="btn <?php echo $date_filter === 'all' ? 'btn-primary' : 'btn-outline-primary'; ?>">Semua</a>
                             </div>
                             
-                            <select class="form-select" style="width: auto;" onchange="window.location.href='?date=<?php echo $date_filter; ?>&sort=' + this.value">
+                            <select class="form-select" style="width: auto;" onchange="window.location.href='?date=<?php echo urlencode($date_filter); ?>&sort=' + this.value">
                                 <option value="newest" <?php echo $sort_filter === 'newest' ? 'selected' : ''; ?>>Terbaru</option>
                                 <option value="oldest" <?php echo $sort_filter === 'oldest' ? 'selected' : ''; ?>>Terlama</option>
                                 <option value="revenue_high" <?php echo $sort_filter === 'revenue_high' ? 'selected' : ''; ?>>Revenue Tertinggi</option>
@@ -757,6 +757,7 @@ $month_names = [
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <form method="POST">
+                    <?php echo csrf_field(); ?>
                     <div class="modal-body">
                         <input type="hidden" name="action" value="create_report">
                         
@@ -803,6 +804,7 @@ $month_names = [
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <form method="POST" id="editReportForm">
+                    <?php echo csrf_field(); ?>
                     <div class="modal-body">
                         <input type="hidden" name="action" value="update_report">
                         <input type="hidden" name="report_id" id="edit_report_id">
@@ -883,6 +885,7 @@ $month_names = [
                 const form = document.createElement('form');
                 form.method = 'POST';
                 form.innerHTML = `
+                    <?php echo csrf_field(); ?>
                     <input type="hidden" name="action" value="delete_report">
                     <input type="hidden" name="report_id" value="${reportId}">
                 `;

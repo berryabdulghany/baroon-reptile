@@ -592,13 +592,13 @@ $status_config = [
                     <div class="col-md-8">
                         <div class="d-flex align-items-center gap-3 flex-wrap">
                             <div class="btn-group" role="group">
-                                <a href="?status=all&sort=<?php echo $sort_filter; ?>" class="btn <?php echo $status_filter === 'all' ? 'btn-primary' : 'btn-outline-secondary'; ?>">Semua</a>
-                                <a href="?status=available&sort=<?php echo $sort_filter; ?>" class="btn <?php echo $status_filter === 'available' ? 'btn-success' : 'btn-outline-success'; ?>">Tersedia</a>
-                                <a href="?status=occupied&sort=<?php echo $sort_filter; ?>" class="btn <?php echo $status_filter === 'occupied' ? 'btn-warning' : 'btn-outline-warning'; ?>">Terisi</a>
-                                <a href="?status=maintenance&sort=<?php echo $sort_filter; ?>" class="btn <?php echo $status_filter === 'maintenance' ? 'btn-danger' : 'btn-outline-danger'; ?>">Maintenance</a>
+                                <a href="?status=all&sort=<?php echo urlencode($sort_filter); ?>" class="btn <?php echo $status_filter === 'all' ? 'btn-primary' : 'btn-outline-secondary'; ?>">Semua</a>
+                                <a href="?status=available&sort=<?php echo urlencode($sort_filter); ?>" class="btn <?php echo $status_filter === 'available' ? 'btn-success' : 'btn-outline-success'; ?>">Tersedia</a>
+                                <a href="?status=occupied&sort=<?php echo urlencode($sort_filter); ?>" class="btn <?php echo $status_filter === 'occupied' ? 'btn-warning' : 'btn-outline-warning'; ?>">Terisi</a>
+                                <a href="?status=maintenance&sort=<?php echo urlencode($sort_filter); ?>" class="btn <?php echo $status_filter === 'maintenance' ? 'btn-danger' : 'btn-outline-danger'; ?>">Maintenance</a>
                             </div>
                             
-                            <select class="form-select" style="width: auto;" onchange="window.location.href='?status=<?php echo $status_filter; ?>&sort=' + this.value">
+                            <select class="form-select" style="width: auto;" onchange="window.location.href='?status=<?php echo urlencode($status_filter); ?>&sort=' + this.value">
                                 <option value="newest" <?php echo $sort_filter === 'newest' ? 'selected' : ''; ?>>Terbaru</option>
                                 <option value="oldest" <?php echo $sort_filter === 'oldest' ? 'selected' : ''; ?>>Terlama</option>
                                 <option value="name" <?php echo $sort_filter === 'name' ? 'selected' : ''; ?>>Nama A-Z</option>
@@ -742,6 +742,7 @@ $status_config = [
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <form method="POST">
+                    <?php echo csrf_field(); ?>
                     <div class="modal-body">
                         <input type="hidden" name="action" value="create_facility">
                         
@@ -792,6 +793,7 @@ $status_config = [
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <form method="POST" id="editFacilityForm">
+                    <?php echo csrf_field(); ?>
                     <div class="modal-body">
                         <input type="hidden" name="action" value="update_facility">
                         <input type="hidden" name="facility_id" id="edit_facility_id">
@@ -868,6 +870,7 @@ $status_config = [
             const form = document.createElement('form');
             form.method = 'POST';
             form.innerHTML = `
+                <?php echo csrf_field(); ?>
                 <input type="hidden" name="action" value="update_status">
                 <input type="hidden" name="facility_id" value="${facilityId}">
                 <input type="hidden" name="status" value="${newStatus}">
@@ -882,6 +885,7 @@ $status_config = [
                 const form = document.createElement('form');
                 form.method = 'POST';
                 form.innerHTML = `
+                    <?php echo csrf_field(); ?>
                     <input type="hidden" name="action" value="delete_facility">
                     <input type="hidden" name="facility_id" value="${facilityId}">
                 `;

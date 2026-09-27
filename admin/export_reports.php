@@ -311,7 +311,7 @@ try {
     echo '<div style="padding: 20px; background-color: #f8d7da; border: 1px solid #f5c6cb; border-radius: 5px; color: #721c24;">';
     echo '<h3>❌ Kesalahan Ekspor</h3>';
     echo '<p>Maaf, terjadi kesalahan saat membuat laporan:</p>';
-    echo '<p><strong>' . htmlspecialchars($e->getMessage()) . '</strong></p>';
+    echo '<p><strong>' . error_detail($e) . '</strong></p>';
     echo '<p><a href="reports.php" style="color: #007bff;">← Kembali ke Laporan</a></p>';
     echo '</div>';
     error_log("Error in export_reports.php: " . $e->getMessage());

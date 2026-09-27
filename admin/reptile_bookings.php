@@ -557,6 +557,7 @@ try {
                                     
                                     <?php if ($booking['status'] === 'pending'): ?>
                                         <form method="POST" class="d-inline">
+                                            <?php echo csrf_field(); ?>
                                             <input type="hidden" name="booking_id" value="<?php echo $booking['id']; ?>">
                                             <input type="hidden" name="status" value="confirmed">
                                             <button type="submit" name="update_status" class="btn btn-success btn-sm">
@@ -565,6 +566,7 @@ try {
                                         </form>
                                         
                                         <form method="POST" class="d-inline">
+                                            <?php echo csrf_field(); ?>
                                             <input type="hidden" name="booking_id" value="<?php echo $booking['id']; ?>">
                                             <input type="hidden" name="status" value="cancelled">
                                             <button type="submit" name="update_status" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to cancel this booking?')">
@@ -575,6 +577,7 @@ try {
                                     
                                     <?php if ($booking['status'] === 'confirmed'): ?>
                                         <form method="POST" class="d-inline">
+                                            <?php echo csrf_field(); ?>
                                             <input type="hidden" name="booking_id" value="<?php echo $booking['id']; ?>">
                                             <input type="hidden" name="status" value="in_progress">
                                             <button type="submit" name="update_status" class="btn btn-info btn-sm">
@@ -585,6 +588,7 @@ try {
                                     
                                     <?php if ($booking['status'] === 'in_progress'): ?>
                                         <form method="POST" class="d-inline">
+                                            <?php echo csrf_field(); ?>
                                             <input type="hidden" name="booking_id" value="<?php echo $booking['id']; ?>">
                                             <input type="hidden" name="status" value="completed">
                                             <button type="submit" name="update_status" class="btn btn-success btn-sm">

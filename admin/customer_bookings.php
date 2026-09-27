@@ -106,7 +106,7 @@ try {
     $stats = $stmt->fetch(PDO::FETCH_ASSOC);
     
 } catch (Exception $e) {
-    $message = '<div class="alert alert-danger"><i class="fas fa-times-circle me-2"></i>Error: ' . $e->getMessage() . '</div>';
+    $message = '<div class="alert alert-danger"><i class="fas fa-times-circle me-2"></i>Error: ' . error_detail($e) . '</div>';
     // Initialize stats array to prevent undefined variable warnings
     $stats = [
         'total_bookings' => 0,
@@ -442,12 +442,12 @@ try {
                     
                     <div class="col-md-3">
                         <label class="form-label">Tanggal Dari</label>
-                        <input type="date" name="date_from" class="form-control" value="<?php echo $date_from; ?>">
+                        <input type="date" name="date_from" class="form-control" value="<?php echo htmlspecialchars($date_from); ?>">
                     </div>
                     
                     <div class="col-md-3">
                         <label class="form-label">Tanggal Sampai</label>
-                        <input type="date" name="date_to" class="form-control" value="<?php echo $date_to; ?>">
+                        <input type="date" name="date_to" class="form-control" value="<?php echo htmlspecialchars($date_to); ?>">
                     </div>
                     
                     <div class="col-md-3 d-flex align-items-end">
@@ -562,7 +562,7 @@ try {
                                 <ul class="pagination">
                                     <?php if ($page > 1): ?>
                                         <li class="page-item">
-                                            <a class="page-link" href="?customer_id=<?php echo $customer_id; ?>&page=<?php echo $page-1; ?>&status=<?php echo $status_filter; ?>&date_from=<?php echo $date_from; ?>&date_to=<?php echo $date_to; ?>">
+                                            <a class="page-link" href="?customer_id=<?php echo $customer_id; ?>&page=<?php echo $page-1; ?>&status=<?php echo urlencode($status_filter); ?>&date_from=<?php echo urlencode($date_from); ?>&date_to=<?php echo urlencode($date_to); ?>">
                                                 <i class="fas fa-chevron-left"></i>
                                             </a>
                                         </li>
@@ -570,7 +570,7 @@ try {
                                     
                                     <?php for ($i = max(1, $page-2); $i <= min($total_pages, $page+2); $i++): ?>
                                         <li class="page-item <?php echo $i === $page ? 'active' : ''; ?>">
-                                            <a class="page-link" href="?customer_id=<?php echo $customer_id; ?>&page=<?php echo $i; ?>&status=<?php echo $status_filter; ?>&date_from=<?php echo $date_from; ?>&date_to=<?php echo $date_to; ?>">
+                                            <a class="page-link" href="?customer_id=<?php echo $customer_id; ?>&page=<?php echo $i; ?>&status=<?php echo urlencode($status_filter); ?>&date_from=<?php echo urlencode($date_from); ?>&date_to=<?php echo urlencode($date_to); ?>">
                                                 <?php echo $i; ?>
                                             </a>
                                         </li>
@@ -578,7 +578,7 @@ try {
                                     
                                     <?php if ($page < $total_pages): ?>
                                         <li class="page-item">
-                                            <a class="page-link" href="?customer_id=<?php echo $customer_id; ?>&page=<?php echo $page+1; ?>&status=<?php echo $status_filter; ?>&date_from=<?php echo $date_from; ?>&date_to=<?php echo $date_to; ?>">
+                                            <a class="page-link" href="?customer_id=<?php echo $customer_id; ?>&page=<?php echo $page+1; ?>&status=<?php echo urlencode($status_filter); ?>&date_from=<?php echo urlencode($date_from); ?>&date_to=<?php echo urlencode($date_to); ?>">
                                                 <i class="fas fa-chevron-right"></i>
                                             </a>
                                         </li>

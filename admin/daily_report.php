@@ -340,6 +340,7 @@ try {
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <form method="POST">
+                    <?php echo csrf_field(); ?>
                     <div class="modal-body">
                         <input type="hidden" name="action" value="create_care_report">
                         <input type="hidden" name="reptile_id" value="<?php echo $booking['reptile_id']; ?>">
@@ -388,6 +389,7 @@ try {
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <form method="POST">
+                    <?php echo csrf_field(); ?>
                     <div class="modal-body">
                         <input type="hidden" name="action" value="update_care_report">
                         <input type="hidden" name="report_id" id="edit_report_id">
@@ -436,6 +438,7 @@ try {
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                     <form method="POST" class="d-inline">
+                        <?php echo csrf_field(); ?>
                         <input type="hidden" name="action" value="delete_care_report">
                         <input type="hidden" name="report_id" id="delete_report_id">
                         <button type="submit" class="btn btn-danger">Hapus</button>

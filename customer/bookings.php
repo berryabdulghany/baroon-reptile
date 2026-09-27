@@ -13,8 +13,8 @@ try {
     $db = getDB();
     
     // Handle cancel booking
-    if (isset($_GET['action']) && $_GET['action'] === 'cancel' && isset($_GET['id'])) {
-        $booking_id = $_GET['id'];
+    if (isset($_POST['action']) && $_POST['action'] === 'cancel' && isset($_POST['id'])) {
+        $booking_id = (int)$_POST['id'];
         
         // Check if booking belongs to current user and can be cancelled
         $stmt = $db->prepare("SELECT * FROM bookings WHERE id = ? AND customer_id = ? AND status IN ('pending', 'confirmed')");
@@ -715,7 +715,12 @@ $status_config = [
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
-                    <a href="#" id="cancelLink" class="btn btn-danger">Ya, Batalkan</a>
+                    <form method="POST" class="d-inline">
+                        <?php echo csrf_field(); ?>
+                        <input type="hidden" name="action" value="cancel">
+                        <input type="hidden" name="id" id="cancelBookingId">
+                        <button type="submit" class="btn btn-danger">Ya, Batalkan</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -739,7 +744,7 @@ $status_config = [
         
         // Cancel confirmation
         function confirmCancel(bookingId) {
-            document.getElementById('cancelLink').href = '?action=cancel&id=' + bookingId;
+            document.getElementById('cancelBookingId').value = bookingId;
             new bootstrap.Modal(document.getElementById('cancelModal')).show();
         }
         

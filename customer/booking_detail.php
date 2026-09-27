@@ -44,7 +44,7 @@ try {
 
     
 } catch (Exception $e) {
-    $message = '<div class="alert alert-danger"><i class="fas fa-times-circle me-2"></i>Error: ' . $e->getMessage() . '</div>';
+    $message = '<div class="alert alert-danger"><i class="fas fa-times-circle me-2"></i>Error: ' . error_detail($e) . '</div>';
 }
 ?>
 
@@ -485,7 +485,7 @@ try {
                             <div class="row text-start">
                                 <div class="col-6">
                                     <small class="text-muted">Umur:</small><br>
-                                    <strong><?php echo $booking['age'] ? $booking['age'] : 'Tidak diketahui'; ?></strong>
+                                    <strong><?php echo $booking['age'] ? htmlspecialchars($booking['age']) : 'Tidak diketahui'; ?></strong>
                                 </div>
                                 <div class="col-6">
                                     <small class="text-muted">Jenis Kelamin:</small><br>

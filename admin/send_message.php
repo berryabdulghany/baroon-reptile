@@ -69,7 +69,7 @@ try {
                 $_POST = [];
                 
             } catch (Exception $e) {
-                $message = '<div class="alert alert-danger"><i class="fas fa-times-circle me-2"></i>Error sending message: ' . $e->getMessage() . '</div>';
+                $message = '<div class="alert alert-danger"><i class="fas fa-times-circle me-2"></i>Error sending message: ' . error_detail($e) . '</div>';
             }
         } else {
             $message = '<div class="alert alert-danger"><i class="fas fa-times-circle me-2"></i>' . implode('<br>', $errors) . '</div>';
@@ -89,7 +89,7 @@ try {
     $recent_messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
 } catch (Exception $e) {
-    $message = '<div class="alert alert-danger"><i class="fas fa-times-circle me-2"></i>Error: ' . $e->getMessage() . '</div>';
+    $message = '<div class="alert alert-danger"><i class="fas fa-times-circle me-2"></i>Error: ' . error_detail($e) . '</div>';
 }
 ?>
 
@@ -386,6 +386,7 @@ try {
                         </div>
                         <div class="message-body">
                             <form method="POST">
+                                <?php echo csrf_field(); ?>
                                 <div class="row mb-3">
                                     <div class="col-md-8">
                                         <label class="form-label">Subject <span class="text-danger">*</span></label>

@@ -69,7 +69,7 @@ try {
     $customer_reptiles = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
 } catch (Exception $e) {
-    $message = '<div class="alert alert-danger"><i class="fas fa-times-circle me-2"></i>Error: ' . $e->getMessage() . '</div>';
+    $message = '<div class="alert alert-danger"><i class="fas fa-times-circle me-2"></i>Error: ' . error_detail($e) . '</div>';
 }
 ?>
 
@@ -523,7 +523,7 @@ try {
                                                     <td><strong><?php echo htmlspecialchars($reptile['name']); ?></strong></td>
                                                     <td><?php echo htmlspecialchars($reptile['species'] ?? ''); ?></td>
                                                     <td><?php echo htmlspecialchars($reptile['category_name']); ?></td>
-                                                    <td><?php echo $reptile['age'] ? $reptile['age'] : 'Tidak diketahui'; ?></td>
+                                                    <td><?php echo $reptile['age'] ? htmlspecialchars($reptile['age']) : 'Tidak diketahui'; ?></td>
                                                     <td>
                                                         <span class="badge bg-<?php 
                                                             echo $reptile['status'] === 'active' ? 'success' : 

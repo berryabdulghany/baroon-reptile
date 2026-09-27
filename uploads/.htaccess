@@ -1,0 +1,15 @@
+# Folder ini hanya berisi gambar yang diunggah pengguna.
+# Jangan pernah menjalankan skrip dari sini.
+
+<FilesMatch "\.(php|phtml|phar|php[0-9])$">
+    Require all denied
+</FilesMatch>
+
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php7.c>
+    php_flag engine off
+</IfModule>
+
+Options -Indexes

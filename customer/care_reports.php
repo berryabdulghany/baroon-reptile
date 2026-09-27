@@ -473,12 +473,12 @@ try {
                             
                             <div class="form-group">
                                 <label class="form-label mb-1">From:</label>
-                                <input type="date" name="date_from" class="form-control form-control-sm" value="<?php echo $date_from; ?>">
+                                <input type="date" name="date_from" class="form-control form-control-sm" value="<?php echo htmlspecialchars($date_from); ?>">
                             </div>
                             
                             <div class="form-group">
                                 <label class="form-label mb-1">To:</label>
-                                <input type="date" name="date_to" class="form-control form-control-sm" value="<?php echo $date_to; ?>">
+                                <input type="date" name="date_to" class="form-control form-control-sm" value="<?php echo htmlspecialchars($date_to); ?>">
                             </div>
                             
                             <button type="submit" class="btn btn-primary btn-sm">

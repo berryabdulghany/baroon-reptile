@@ -567,6 +567,7 @@ $status_config = [
                         </div>
                         <div class="profile-card-body">
                             <form method="POST">
+                                <?php echo csrf_field(); ?>
                                 <input type="hidden" name="action" value="update_profile">
                                 
                                 <div class="row">
@@ -630,6 +631,7 @@ $status_config = [
                         </div>
                         <div class="profile-card-body">
                             <form method="POST" id="passwordForm">
+                                <?php echo csrf_field(); ?>
                                 <input type="hidden" name="action" value="change_password">
                                 
                                 <div class="mb-3">

@@ -5,7 +5,39 @@ Semua perubahan penting pada proyek ini akan didokumentasikan dalam file ini.
 Format berdasarkan [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 dan proyek ini mengikuti [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.0] - 2025-01-19
+## [1.1.0] - 2026-09-28
+
+Perapian proyek sebelum dipindahkan ke repositori baru.
+
+### Added
+- `database/schema.sql` dan `database/seed.sql` sebagai satu-satunya sumber skema dan data demo
+- Konfigurasi lewat environment variable (`DB_*`, `APP_DEBUG`)
+- Docker (`Dockerfile`, `docker-compose.yml`) untuk menjalankan aplikasi dan demo
+- Proteksi CSRF di semua form
+- Metode pembayaran e-wallet
+- README baru dengan panduan instalasi dan tangkapan layar, serta lisensi MIT
+
+### Changed
+- Upload foto memakai satu helper yang memeriksa isi file, nama file acak, dan folder upload yang tidak bisa mengeksekusi skrip
+- Batal booking dan hapus reptil memakai POST, bukan link GET
+- Status reptil diseragamkan menjadi `active`/`inactive`
+
+### Fixed
+- Detail booking, detail pembayaran, dan edit reptil (admin) yang gagal karena kolom tidak ada
+- Laporan perawatan di detail booking admin yang membaca tabel yang tidak pernah dibuat
+- Pembayaran pelanggan, hapus akun, filter pelanggan, dan filter fasilitas yang gagal tersimpan atau error
+- Daftar fasilitas di form booking pelanggan yang selalu kosong
+- Tautan ke halaman yang tidak ada (kategori, testimoni, profil admin, dan lainnya)
+
+### Removed
+- Skrip debug, uji coba, backup, dan perbaikan database yang bisa diakses tanpa login
+- Dua file SQL lama yang isinya saling berbeda
+
+### Security
+- Tutup celah XSS pada data pelanggan dan parameter filter di halaman admin
+- Detail error dan pesan exception tidak lagi tampil ke pengunjung saat produksi
+
+## [1.0.0] - 2025-07-21
 
 ### Added
 - **Sistem Autentikasi Lengkap**

@@ -33,7 +33,7 @@ Allow: /index.php
 Allow: /assets/
 
 # Sitemap location (create this file if needed)
-# Sitemap: https://yourdomain.com/baroonreptil/sitemap.xml
+# Sitemap: https://domain-anda.com/sitemap.xml
 
 # Crawl delay (optional)
 Crawl-delay: 1

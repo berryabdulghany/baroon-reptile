@@ -48,29 +48,6 @@ try {
         
         if (empty($errors)) {
             try {
-                // Create messages table if it doesn't exist
-                $create_table_sql = "
-                    CREATE TABLE IF NOT EXISTS messages (
-                        id INT AUTO_INCREMENT PRIMARY KEY,
-                        from_user_id INT NOT NULL,
-                        to_user_id INT NOT NULL,
-                        subject VARCHAR(255) NOT NULL,
-                        message TEXT NOT NULL,
-                        message_type ENUM('general', 'booking', 'payment', 'reminder', 'notification') DEFAULT 'general',
-                        priority ENUM('low', 'normal', 'high', 'urgent') DEFAULT 'normal',
-                        status ENUM('unread', 'read', 'archived') DEFAULT 'unread',
-                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                        read_at TIMESTAMP NULL,
-                        FOREIGN KEY (from_user_id) REFERENCES users(id) ON DELETE CASCADE,
-                        FOREIGN KEY (to_user_id) REFERENCES users(id) ON DELETE CASCADE,
-                        INDEX idx_to_user (to_user_id),
-                        INDEX idx_from_user (from_user_id),
-                        INDEX idx_status (status),
-                        INDEX idx_created_at (created_at)
-                    )
-                ";
-                $db->exec($create_table_sql);
-                
                 // Insert the message
                 $stmt = $db->prepare("
                     INSERT INTO messages (from_user_id, to_user_id, subject, message, message_type, priority) 

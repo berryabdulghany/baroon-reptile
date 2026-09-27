@@ -138,6 +138,3 @@ Semua konfigurasi dibaca dari environment variable (lihat [`config/database.php`
 - Halaman kelola kategori reptil dan testimoni pelanggan
 - Notifikasi email dan integrasi payment gateway
 
-## Lisensi
-
-Dirilis di bawah [Lisensi MIT](LICENSE).

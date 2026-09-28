@@ -123,13 +123,6 @@ Semua konfigurasi dibaca dari environment variable (lihat [`config/database.php`
 
 <p align="center"><img src="docs/screenshots/landing-mobile.png" width="260" alt="Tampilan mobile"><br><b>Tampilan mobile</b></p>
 
-## Dokumentasi
-
-- [Spesifikasi Kebutuhan Perangkat Lunak (SKPL)](docs/SKPL_Baroon_Reptile.md)
-- [Spesifikasi Perancangan Perangkat Lunak (SPPL)](docs/SPPL_Baroon_Reptile.md)
-- [User Manual](docs/User_Manual_Baroon_Reptile.md)
-- [Changelog](CHANGELOG.md)
-
 ## Rencana Pengembangan
 
 - Simpan fasilitas yang dipilih per booking (saat ini hanya ikut dihitung ke total harga)

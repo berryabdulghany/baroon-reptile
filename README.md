@@ -6,7 +6,6 @@ Sistem informasi penitipan reptil berbasis web. Pemilik reptil bisa mendaftarkan
 ![MariaDB](https://img.shields.io/badge/MariaDB%20%2F%20MySQL-10.4%2B%20%2F%208.0%2B-003545?logo=mariadb&logoColor=white)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3?logo=bootstrap&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker&logoColor=white)
-![License](https://img.shields.io/badge/license-MIT-green)
 
 ![Dashboard admin](docs/screenshots/admin-dashboard.png)
 

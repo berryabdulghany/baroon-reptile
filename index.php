@@ -182,6 +182,36 @@ require_once 'config/database.php';
             color: white;
             padding: 50px 0 20px;
         }
+
+        @media (max-width: 575.98px) {
+            .hero-section {
+                min-height: 100svh;
+                padding: 6rem 0 3rem;
+            }
+
+            .hero-title {
+                font-size: clamp(2.25rem, 10vw, 3rem);
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .hero-buttons {
+                display: flex;
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .btn-custom {
+                width: 100%;
+                margin: 0;
+            }
+
+            .hero-section .text-center .fa-dragon {
+                font-size: clamp(6rem, 35vw, 10rem) !important;
+            }
+        }
     </style>
 </head>
 <body>
